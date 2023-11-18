@@ -1,4 +1,4 @@
-# **GAMECORD**
+# **FALGAMES**
 
 > **Falgames is a powerful npm package with a collection of minigames for your discord bot :)**
 
