@@ -49,7 +49,7 @@ module.exports = class FishyGame extends events {
     if (typeof options.invalidTypeMessage !== 'string') throw new TypeError('INVALID_MESSAGE: InvalidType message option must be a string.');
     if (typeof options.invalidAmountMessage !== 'string') throw new TypeError('INVALID_MESSAGE: InvalidAmount message option must be a string.');
     if (typeof options.noItemMessage !== 'string') throw new TypeError('INVALID_MESSAGE: noItem message option must be a string.');
-    if (!options.message.deferred) options.message.deferReply().catch(e => {});
+    if (!options.message.deferred && options.isSlashGame) options.message.deferReply().catch(e => {});
 
     super();
     this.options = options;
