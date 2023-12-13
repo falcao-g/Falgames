@@ -1,7 +1,7 @@
 # **🧩 Match Pairs**
 
 ```js
-const { MatchPairs } = require('discord-gamecord');
+const { MatchPairs } = require('falgames');
 
 const Game = new MatchPairs({
   message: message,

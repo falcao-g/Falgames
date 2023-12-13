@@ -1,7 +1,7 @@
 # **🔢 Connect 4**
 
 ```js
-const { Connect4 } = require('discord-gamecord');
+const { Connect4 } = require('falgames');
 
 const Game = new Connect4({
   message: message,

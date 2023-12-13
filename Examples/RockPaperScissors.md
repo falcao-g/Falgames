@@ -1,7 +1,7 @@
 # **🔖 Rock Paper Scissors**
 
 ```js
-const { RockPaperScissors } = require('discord-gamecord');
+const { RockPaperScissors } = require('falgames');
 
 const Game = new RockPaperScissors({
   message: message,

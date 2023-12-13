@@ -1,7 +1,7 @@
 # **🎰 Slot Machine**
 
 ```js
-const { Slots } = require('discord-gamecord');
+const { Slots } = require('falgames');
 
 const Game = new Slots({
   message: message,

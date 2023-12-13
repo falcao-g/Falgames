@@ -1,7 +1,7 @@
 # **💣 Minesweeper**
 
 ```js
-const { Minesweeper } = require('discord-gamecord');
+const { Minesweeper } = require('falgames');
 
 const Game = new Minesweeper({
   message: message,

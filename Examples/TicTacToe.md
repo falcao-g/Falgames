@@ -1,7 +1,7 @@
 # **🔖 Tic Tac Toe**
 
 ```js
-const { TicTacToe } = require('discord-gamecord');
+const { TicTacToe } = require('falgames');
 
 const Game = new TicTacToe({
   message: message,

@@ -1,7 +1,7 @@
 # **🤔 Guess The Pokemon**
 
 ```js
-const { GuessThePokemon } = require('discord-gamecord');
+const { GuessThePokemon } = require('falgames');
 
 const Game = new GuessThePokemon({
   message: message,

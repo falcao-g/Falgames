@@ -1,7 +1,7 @@
 # **🧨 Flood**
 
 ```js
-const { Flood } = require('discord-gamecord');
+const { Flood } = require('falgames');
 
 const Game = new Flood({
   message: message,

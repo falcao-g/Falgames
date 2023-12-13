@@ -1,7 +1,7 @@
 # **🆎 Wordle**
 
 ```js
-const { Wordle } = require('discord-gamecord');
+const { Wordle } = require('falgames');
 
 const Game = new Wordle({
   message: message,

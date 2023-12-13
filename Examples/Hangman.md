@@ -1,7 +1,7 @@
 # **🎩 Hangman**
 
 ```js
-const { Hangman } = require('discord-gamecord');
+const { Hangman } = require('falgames');
 
 const Game = new Hangman({
   message: message,

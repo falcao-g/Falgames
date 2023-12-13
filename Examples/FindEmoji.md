@@ -1,7 +1,7 @@
 # **🔎 Find Emoji**
 
 ```js
-const { FindEmoji } = require('discord-gamecord');
+const { FindEmoji } = require('falgames');
 
 const Game = new FindEmoji({
   message: message,
