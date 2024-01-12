@@ -13,8 +13,17 @@ module.exports = class Roll extends events {
 		if (!options.embed.title) options.embed.title = "Dice Roll"
 		if (!options.embed.color) options.embed.color = "#5865F2"
 
+		if (!options.notValidRollMessage) options.notValidRollMessage = "Please provide a valid roll."
+		if (!options.rollLimit) options.rollLimit = 500
+		if (!options.rollLimitMessage) options.rollLimitMessage = "You can't roll this many dice."
+
 		if (typeof options.embed !== "object") throw new TypeError("INVALID_EMBED: embed option must be an object.")
 		if (typeof options.embed.title !== "string") throw new TypeError("INVALID_EMBED: embed title must be a string.")
+		if (typeof options.notValidRollMessage !== "string")
+			throw new TypeError("INVALID_MESSAGE: notValidRollMessage option must be a string.")
+		if (typeof options.rollLimit !== "number") throw new TypeError("INVALID_NUMBER: rollLimit option must be a number.")
+		if (typeof options.rollLimitMessage !== "string")
+			throw new TypeError("INVALID_MESSAGE: rollLimitMessage option must be a string.")
 
 		super()
 		this.options = options
@@ -33,10 +42,22 @@ module.exports = class Roll extends events {
 			this.options.isSlashGame = true
 		}
 
+		try {
+			var result = this.calculate(expression)
+		} catch (e) {
+			await this.sendMessage({ content: this.options.notValidRollMessage })
+			return
+		}
+
+		if (result.length > this.options.rollLimit) {
+			await this.sendMessage({ content: this.options.rollLimitMessage })
+			return
+		}
+
 		const embed = new EmbedBuilder()
 			.setColor(this.options.embed.color)
 			.setTitle(this.options.embed.title)
-			.setDescription(this.calculate(expression))
+			.setDescription(result)
 			.setFooter({
 				text: this.message.author.username,
 				iconURL: this.message.author.displayAvatarURL({ dynamic: true }),
