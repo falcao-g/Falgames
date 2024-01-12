@@ -28,7 +28,6 @@ module.exports = class SnakeGame extends events {
 
     if (!options.emojis) options.emojis = {};
     if (!options.emojis.board) options.emojis.board = '⬛';
-    if (!options.emojis.food) options.emojis.food = '🍎';
     
     if (!options.emojis.up) options.emojis.up = '⬆️';
     if (!options.emojis.down) options.emojis.down = '⬇️';
@@ -47,7 +46,6 @@ module.exports = class SnakeGame extends events {
     if (typeof options.embed.scoreText !== 'string') throw new TypeError('INVALID_TEXT: embed scoreText must be a string.');
     if (typeof options.emojis !== 'object') throw new TypeError('INVALID_EMOJI: emojis option must be an object.');
     if (typeof options.emojis.board !== 'string') throw new TypeError('INVALID_EMOJI: board emoji must be a string.');
-    if (typeof options.emojis.food !== 'string') throw new TypeError('INVALID_EMOJI: food emoji must be a string.');
     if (typeof options.emojis.up !== 'string') throw new TypeError('INVALID_EMOJI: up emoji must be a string.');
     if (typeof options.emojis.down !== 'string') throw new TypeError('INVALID_EMOJI: down emoji must be a string.');
     if (typeof options.emojis.left !== 'string') throw new TypeError('INVALID_EMOJI: left emoji must be a string.');
