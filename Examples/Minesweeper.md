@@ -8,7 +8,7 @@ const Game = new Minesweeper({
   isSlashGame: false,
   embed: {
     title: 'Minesweeper',
-    color: '#5865F2',
+    color: '#551476',
     description: 'Click on the buttons to reveal the blocks except mines.'
   },
   emojis: { flag: '🚩', mine: '💣' },

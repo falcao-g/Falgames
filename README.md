@@ -28,8 +28,8 @@ const Game = new Snake({
   embed: {
     title: 'Snake Game',
     overTitle: 'Game Over',
-    scoreText: '**Score:**'
-    color: '#5865F2'
+    scoreText: '**Score:**',
+    color: '#551476'
   },
   emojis: {
     board: '⬛',

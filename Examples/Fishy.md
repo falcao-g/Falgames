@@ -10,7 +10,7 @@ const Game = new Fishy({
   player: player,
   embed: {
     title: 'Fishy Inventory',
-    color: '#5865F2'
+    color: '#551476'
   },
   fishes: {
     junk: { emoji: '🔧', price: 5 },

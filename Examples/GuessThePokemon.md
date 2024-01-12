@@ -8,7 +8,7 @@ const Game = new GuessThePokemon({
   isSlashGame: false,
   embed: {
     title: 'Who\'s The Pokemon',
-    color: '#5865F2'
+    color: '#551476'
   },
   timeoutTime: 60000,
   winMessage: 'You guessed it right! It was a {pokemon}.',

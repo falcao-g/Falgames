@@ -8,7 +8,7 @@ const Game = new FastType({
   isSlashGame: false,
   embed: {
     title: 'Fast Type',
-    color: '#5865F2',
+    color: '#551476',
     description: 'You have {time} seconds to type the sentence below.',
     sentenceTitle: 'Sentence'
   },

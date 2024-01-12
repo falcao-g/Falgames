@@ -8,7 +8,7 @@ const Game = new Flood({
   isSlashGame: false,
   embed: {
     title: 'Flood',
-    color: '#5865F2',
+    color: '#551476',
   },
   difficulty: 13,
   timeoutTime: 60000,

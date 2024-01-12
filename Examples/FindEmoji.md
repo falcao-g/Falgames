@@ -8,7 +8,7 @@ const Game = new FindEmoji({
   isSlashGame: false,
   embed: {
     title: 'Find Emoji',
-    color: '#5865F2',
+    color: '#551476',
     description: 'Remember the emojis from the board below.',
     findDescription: 'Find the {emoji} emoji before the time runs out.'
   },

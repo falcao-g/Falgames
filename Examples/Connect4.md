@@ -10,7 +10,7 @@ const Game = new Connect4({
   embed: {
     title: 'Connect4 Game',
     statusTitle: 'Status',
-    color: '#5865F2'
+    color: '#551476'
   },
   emojis: {
     board: '⚪',

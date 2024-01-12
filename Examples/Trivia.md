@@ -8,7 +8,7 @@ const Game = new Trivia({
   isSlashGame: false,
   embed: {
     title: 'Trivia',
-    color: '#5865F2',
+    color: '#551476',
     description: 'You have 60 seconds to guess the answer.'
   },
   timeoutTime: 60000,

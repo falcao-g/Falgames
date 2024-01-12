@@ -8,7 +8,7 @@ const Game = new Roll({
   isSlashGame: false,
   embed: {
     title: 'Dice Roll',
-    color: '#5865F2'
+    color: '#551476'
   },
   notValidRollMessage: 'Please provide a valid roll.',
   rollLimit: 500,

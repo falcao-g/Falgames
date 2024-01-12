@@ -8,7 +8,7 @@ const Game = new Wordle({
   isSlashGame: false,
   embed: {
     title: 'Wordle',
-    color: '#5865F2',
+    color: '#551476',
   },
   customWord: null,
   timeoutTime: 60000,

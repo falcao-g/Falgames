@@ -9,7 +9,7 @@ const Game = new TicTacToe({
   opponent: message.mentions.users.first(),
   embed: {
     title: 'Tic Tac Toe',
-    color: '#5865F2',
+    color: '#551476',
     statusTitle: 'Status',
     overTitle: 'Game Over'
   },

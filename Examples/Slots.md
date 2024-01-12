@@ -8,7 +8,7 @@ const Game = new Slots({
   isSlashGame: false,
   embed: {
     title: 'Slot Machine',
-    color: '#5865F2'
+    color: '#551476'
   },
   slots: ['🍇', '🍊', '🍋', '🍌']
 });

@@ -9,7 +9,7 @@ const Game = new RockPaperScissors({
   opponent: message.mentions.users.first(),
   embed: {
     title: 'Rock Paper Scissors',
-    color: '#5865F2',
+    color: '#551476',
     description: 'Press a button below to make a choice.'
   },
   buttons: {

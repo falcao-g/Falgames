@@ -8,7 +8,7 @@ const Game = new MatchPairs({
   isSlashGame: false,
   embed: {
     title: 'Match Pairs',
-    color: '#5865F2',
+    color: '#551476',
     description: '**Click on the buttons to match emojis with their pairs.**'
   },
   timeoutTime: 60000,

@@ -8,7 +8,7 @@ const Game = new WouldYouRather({
   isSlashGame: false,
   embed: {
     title: 'Would You Rather',
-    color: '#5865F2',
+    color: '#551476',
   },
   buttons: {
     option1: 'Option 1',

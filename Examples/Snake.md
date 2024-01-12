@@ -10,7 +10,7 @@ const Game = new Snake({
     title: 'Snake Game',
     overTitle: 'Game Over',
     scoreText: '**Score:**'
-    color: '#5865F2'
+    color: '#551476'
   },
   emojis: {
     board: '⬛',

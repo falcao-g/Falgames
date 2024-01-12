@@ -8,7 +8,7 @@ const Game = new Hangman({
   isSlashGame: false,
   embed: {
     title: 'Hangman',
-    color: '#5865F2'
+    color: '#551476'
   },
   hangman: { hat: '🎩', head: '😟', shirt: '👕', pants: '🩳', boots: '👞👞' },
   customWord: 'Gamecord',
