@@ -18,6 +18,7 @@ module.exports = class SnakeGame extends events {
     if (!options.embed.title) options.embed.title = 'Snake Game';
     if (!options.embed.color) options.embed.color = '#5865F2';
     if (!options.embed.overTitle) options.embed.overTitle = 'Game Over';
+    if (!options.embed.scoreText) options.embed.scoreText = '**Score:**'
 
     if (!options.snake) options.snake = {};
     if (!options.snake.head) options.snake.head = '🟢';
@@ -43,6 +44,7 @@ module.exports = class SnakeGame extends events {
     if (typeof options.embed.title !== 'string') throw new TypeError('INVALID_EMBED: embed title must be a string.');
     if (typeof options.embed.color !== 'string') throw new TypeError('INVALID_EMBED: embed color must be a string.');
     if (typeof options.embed.overTitle !== 'string') throw new TypeError('INVALID_EMBED: embed overTitle must be a string.');
+    if (typeof options.embed.scoreText !== 'string') throw new TypeError('INVALID_TEXT: embed scoreText must be a string.');
     if (typeof options.emojis !== 'object') throw new TypeError('INVALID_EMOJI: emojis option must be an object.');
     if (typeof options.emojis.board !== 'string') throw new TypeError('INVALID_EMOJI: board emoji must be a string.');
     if (typeof options.emojis.food !== 'string') throw new TypeError('INVALID_EMOJI: food emoji must be a string.');
@@ -145,7 +147,7 @@ module.exports = class SnakeGame extends events {
     const embed = new EmbedBuilder()
     .setColor(this.options.embed.color)
     .setTitle(this.options.embed.title)
-    .setDescription('**Score:** ' + this.score + '\n\n' + this.getBoardContent())
+    .setDescription(this.options.embed.scoreText + this.score + '\n\n' + this.getBoardContent())
     .setFooter({ text: this.message.author.tag, iconURL: this.message.author.displayAvatarURL({ dynamic: true }) })
 
 
