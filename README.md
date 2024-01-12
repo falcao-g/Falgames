@@ -48,3 +48,7 @@ Game.on('gameOver', result => {
   console.log(result);  // =>  { result... }
 });
 ```
+
+## **📜 Credits**
+
+This package is directed inspired by the [Gamecord](https://www.npmjs.com/package/discord-gamecord) package.
