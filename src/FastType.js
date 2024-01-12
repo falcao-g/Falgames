@@ -27,6 +27,7 @@ module.exports = class FastType extends events {
     if (typeof options.embed.title !== 'string') throw new TypeError('INVALID_EMBED: embed title must be a string.');
     if (typeof options.embed.color !== 'string') throw new TypeError('INVALID_EMBED: embed color must be a string.');
     if (typeof options.embed.description !== 'string') throw new TypeError('INVALID_DESCRIPTION: embed description must be a string.');
+    if (typeof options.embed.sentenceTitle !== 'string') throw new TypeError('INVALID_TEXT: embed sentenceTitle must be a string.');
     if (typeof options.sentence !== 'string') throw new TypeError('INVALID_SENTENCE: sentence must be a string.');
     if (typeof options.winMessage !== 'string') throw new TypeError('INVALID_MESSAGE: Win message option must be a string.');
     if (typeof options.loseMessage !== 'string') throw new TypeError('INVALID_MESSAGE: Lose message option must be a string.');
