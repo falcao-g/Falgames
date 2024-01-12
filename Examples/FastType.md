@@ -9,7 +9,8 @@ const Game = new FastType({
   embed: {
     title: 'Fast Type',
     color: '#5865F2',
-    description: 'You have {time} seconds to type the sentence below.'
+    description: 'You have {time} seconds to type the sentence below.',
+    sentenceTitle: 'Sentence'
   },
   timeoutTime: 60000,
   sentence: 'Some really cool sentence to fast type.',
