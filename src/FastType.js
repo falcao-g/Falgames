@@ -15,6 +15,7 @@ module.exports = class FastType extends events {
     if (!options.embed.title) options.embed.title = 'Fast Type';
     if (!options.embed.color) options.embed.color = '#5865F2';
     if (!options.embed.description) options.embed.description = 'You have {time} seconds to type the sentence below.';
+    if (!options.embed.sentenceTitle) options.embed.sentenceTitle = 'Sentence';
 
     if (!options.sentence) options.sentence = 'Some really cool sentence to fast type.';
     if (!options.winMessage) options.winMessage = 'You won! You finished the type race in {time} seconds with word per minute of {wpm}.';
@@ -58,7 +59,7 @@ module.exports = class FastType extends events {
     .setColor(this.options.embed.color)
     .setTitle(this.options.embed.title)
     .setDescription(this.options.embed.description.replace('{time}', (this.options.timeoutTime/1000)))
-    .addFields({ name: 'Sentence', value: this.options.sentence.split(' ').map(e => '`'+ e.split('').join(' ')+'`').join(' ') })
+    .addFields({ name: this.options.embed.sentenceTitle, value: this.options.sentence})
     .setAuthor({ name: this.message.author.tag, iconURL: this.message.author.displayAvatarURL({ dynamic: true }) })
 
 
