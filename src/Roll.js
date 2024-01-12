@@ -11,7 +11,7 @@ module.exports = class Roll extends events {
 
 		if (!options.embed) options.embed = {}
 		if (!options.embed.title) options.embed.title = "Dice Roll"
-		if (!options.embed.color) options.embed.color = "#5865F2"
+		if (!options.embed.color) options.embed.color = "#551476"
 
 		if (!options.notValidRollMessage) options.notValidRollMessage = "Please provide a valid roll."
 		if (!options.rollLimit) options.rollLimit = 500

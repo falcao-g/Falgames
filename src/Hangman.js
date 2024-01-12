@@ -15,7 +15,7 @@ module.exports = class Hangman extends events {
 
     if (!options.embed) options.embed = {};
     if (!options.embed.title) options.embed.title = 'Hangman';
-    if (!options.embed.color) options.embed.color = '#5865F2';
+    if (!options.embed.color) options.embed.color = '#551476';
 
     if (!options.hangman) options.hangman = {};
     if (!options.hangman.hat) options.hangman.hat = '🎩';
@@ -33,7 +33,6 @@ module.exports = class Hangman extends events {
 
     if (typeof options.embed !== 'object') throw new TypeError('INVALID_EMBED: embed option must be an object.');
     if (typeof options.embed.title !== 'string') throw new TypeError('INVALID_EMBED: embed title must be a string.');
-    if (typeof options.embed.color !== 'string') throw new TypeError('INVALID_EMBED: embed color must be a string.');
     if (typeof options.hangman !== 'object') throw new TypeError('INVALID_HANGMAN: hangman option must be an object.');
     if (typeof options.hangman.hat !== 'string') throw new TypeError('INVALID_HANGMAN: hangman hat must be a string.');
     if (typeof options.hangman.head !== 'string') throw new TypeError('INVALID_HANGMAN: hangman head must be a string.');

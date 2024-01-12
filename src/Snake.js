@@ -16,7 +16,7 @@ module.exports = class SnakeGame extends events {
 
     if (!options.embed) options.embed = {};
     if (!options.embed.title) options.embed.title = 'Snake Game';
-    if (!options.embed.color) options.embed.color = '#5865F2';
+    if (!options.embed.color) options.embed.color = '#551476';
     if (!options.embed.overTitle) options.embed.overTitle = 'Game Over';
     if (!options.embed.scoreText) options.embed.scoreText = '**Score:**'
 
@@ -41,7 +41,6 @@ module.exports = class SnakeGame extends events {
 
     if (typeof options.embed !== 'object') throw new TypeError('INVALID_EMBED: embed option must be an object.');
     if (typeof options.embed.title !== 'string') throw new TypeError('INVALID_EMBED: embed title must be a string.');
-    if (typeof options.embed.color !== 'string') throw new TypeError('INVALID_EMBED: embed color must be a string.');
     if (typeof options.embed.overTitle !== 'string') throw new TypeError('INVALID_EMBED: embed overTitle must be a string.');
     if (typeof options.embed.scoreText !== 'string') throw new TypeError('INVALID_TEXT: embed scoreText must be a string.');
     if (typeof options.emojis !== 'object') throw new TypeError('INVALID_EMOJI: emojis option must be an object.');

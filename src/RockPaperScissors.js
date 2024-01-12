@@ -16,7 +16,7 @@ module.exports = class RPSGame extends approve {
 
     if (!options.embed) options.embed = {};
     if (!options.embed.title) options.embed.title = 'Rock Paper Scissors';
-    if (!options.embed.color) options.embed.color = '#5865F2';
+    if (!options.embed.color) options.embed.color = '#551476';
     if (!options.embed.description) options.embed.description = 'Press a button below to make a choice.';
 
     if (!options.buttons) options.buttons = {};
@@ -41,7 +41,6 @@ module.exports = class RPSGame extends approve {
 
     if (typeof options.embed !== 'object') throw new TypeError('INVALID_EMBED: embed option must be an object.');
     if (typeof options.embed.title !== 'string') throw new TypeError('INVALID_EMBED: embed title must be a string.');
-    if (typeof options.embed.color !== 'string') throw new TypeError('INVALID_EMBED: embed color must be a string.');
     if (typeof options.embed.description !== 'string') throw new TypeError('INVALID_EMBED: embed description must be a string.');
     if (typeof options.buttons !== 'object') throw new TypeError('INVALID_BUTTONS: buttons option must be an object.');
     if (typeof options.buttons.rock !== 'string') throw new TypeError('INVALID_BUTTONS: rock button must be a string.');

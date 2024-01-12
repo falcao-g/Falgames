@@ -17,7 +17,7 @@ module.exports = class Connect4 extends approve {
     if (!options.embed) options.embed = {};
     if (!options.embed.title) options.embed.title = 'Connect4 Game';
     if (!options.embed.statusTitle) options.embed.statusTitle = 'Status';
-    if (!options.embed.color) options.embed.color = '#5865F2';
+    if (!options.embed.color) options.embed.color = '#551476';
 
     if (!options.emojis) options.emojis = {};
     if (!options.emojis.board) options.emojis.board = '⚪';
@@ -37,7 +37,6 @@ module.exports = class Connect4 extends approve {
     if (typeof options.embed !== 'object') throw new TypeError('INVALID_EMBED: embed option must be an object.');
     if (typeof options.embed.title !== 'string') throw new TypeError('INVALID_EMBED: embed title must be a string.');
     if (typeof options.embed.statusTitle !== 'string') throw new TypeError('INVALID_EMBED: embed title must be a string.');
-    if (typeof options.embed.color !== 'string') throw new TypeError('INVALID_EMBED: embed color must be a string.');
     if (typeof options.emojis !== 'object') throw new TypeError('INVALID_EMOJIS: emojis option must be an object.');
     if (typeof options.emojis.board !== 'string') throw new TypeError('INVALID_EMOJIS: board emoji must be a string.');
     if (typeof options.emojis.player1 !== 'string') throw new TypeError('INVALID_EMOJIS: player1 emoji must be a string.');

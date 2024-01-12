@@ -14,7 +14,7 @@ module.exports = class Minesweeper extends events {
 
     if (!options.embed) options.embed = {};
     if (!options.embed.title) options.embed.title = 'Minesweeper';
-    if (!options.embed.color) options.embed.color = '#5865F2';
+    if (!options.embed.color) options.embed.color = '#551476';
     if (!options.embed.description) options.embed.description = 'Click on the buttons to reveal the blocks except mines.';
 
     if (!options.emojis) options.emojis = {};
@@ -29,7 +29,6 @@ module.exports = class Minesweeper extends events {
 
     if (typeof options.embed !== 'object') throw new TypeError('INVALID_EMBED: embed option must be an object.');
     if (typeof options.embed.title !== 'string') throw new TypeError('INVALID_EMBED: embed title must be a string.');
-    if (typeof options.embed.color !== 'string') throw new TypeError('INVALID_EMBED: embed color must be a string.');
     if (typeof options.embed.description !== 'string') throw new TypeError('INVALID_EMBED: embed description must be a string.');
     if (typeof options.emojis !== 'object') throw new TypeError('INVALID_EMOJIS: emojis option must be an object.');
     if (typeof options.emojis.flag !== 'string') throw new TypeError('INVALID_EMOJIS: flag emoji must be a string.');

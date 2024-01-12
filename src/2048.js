@@ -15,7 +15,7 @@ module.exports = class TwoZeroFourEight extends events {
 
     if (!options.embed) options.embed = {};
     if (!options.embed.title) options.embed.title = '2048';
-    if (!options.embed.color) options.embed.color = '#5865F2';
+    if (!options.embed.color) options.embed.color = '#551476';
 
     if (!options.emojis) options.emojis = {};
     if (!options.emojis.up) options.emojis.up = '⬆️';
@@ -29,7 +29,6 @@ module.exports = class TwoZeroFourEight extends events {
 
     if (typeof options.embed !== 'object') throw new TypeError('INVALID_EMBED: embed option must be an object.');
     if (typeof options.embed.title !== 'string') throw new TypeError('INVALID_EMBED: embed title must be a string.');
-    if (typeof options.embed.color !== 'string') throw new TypeError('INVALID_EMBED: embed color must be a string.');
     if (typeof options.emojis !== 'object') throw new TypeError('INVALID_EMOJIS: emojis option must be an object.');
     if (typeof options.emojis.up !== 'string') throw new TypeError('INVALID_EMOJIS: up emoji must be an string.');
     if (typeof options.emojis.down !== 'string') throw new TypeError('INVALID_EMOJIS: down emoji must be an string.');

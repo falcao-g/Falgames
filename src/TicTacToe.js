@@ -18,7 +18,7 @@ module.exports = class TicTacToe extends approve {
     if (!options.embed.title) options.embed.title = 'Tic Tac Toe';
     if (!options.embed.statusTitle) options.embed.statusTitle = 'Status';
     if (!options.embed.overTitle) options.embed.overTitle = 'Game Over';
-    if (!options.embed.color) options.embed.color = '#5865F2';
+    if (!options.embed.color) options.embed.color = '#551476';
 
     if (!options.emojis) options.emojis = {};
     if (!options.emojis.xButton) options.emojis.xButton = '❌';
@@ -40,7 +40,6 @@ module.exports = class TicTacToe extends approve {
     if (typeof options.embed.title !== 'string') throw new TypeError('INVALID_EMBED: embed title must be a string.');
     if (typeof options.embed.statusTitle !== 'string') throw new TypeError('INVALID_EMBED: status title must be a string.');
     if (typeof options.embed.overTitle !== 'string') throw new TypeError('INVALID_EMBED: over title must be a string.');
-    if (typeof options.embed.color !== 'string') throw new TypeError('INVALID_EMBED: embed color must be a string.');
     if (typeof options.emojis !== 'object') throw new TypeError('INVALID_EMOJIS: emojis option must be an object.');
     if (typeof options.emojis.xButton !== 'string') throw new TypeError('INVALID_EMOJIS: xButton emoji must be a string.');
     if (typeof options.emojis.oButton !== 'string') throw new TypeError('INVALID_EMOJIS: oButton emoji must be a string.');

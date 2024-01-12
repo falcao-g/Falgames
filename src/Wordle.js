@@ -14,7 +14,7 @@ module.exports = class Wordle extends events {
 
     if (!options.embed) options.embed = {};
     if (!options.embed.title) options.embed.title = 'Wordle';
-    if (!options.embed.color) options.embed.color = '#5865F2';
+    if (!options.embed.color) options.embed.color = '#551476';
 
     if (!options.customWord) options.customWord = null;
     if (!options.timeoutTime) options.timeoutTime = 60000;
@@ -24,7 +24,6 @@ module.exports = class Wordle extends events {
 
     if (typeof options.embed !== 'object') throw new TypeError('INVALID_EMBED: embed option must be an object.');
     if (typeof options.embed.title !== 'string') throw new TypeError('INVALID_EMBED: embed title must be a string.');
-    if (typeof options.embed.color !== 'string') throw new TypeError('INVALID_EMBED: embed color must be a string.');
     if (typeof options.timeoutTime !== 'number') throw new TypeError('INVALID_TIME: Timeout time option must be a number.');
     if (typeof options.winMessage !== 'string') throw new TypeError('INVALID_MESSAGE: Win message option must be a string.');
     if (typeof options.loseMessage !== 'string') throw new TypeError('INVALID_MESSAGE: Lose message option must be a string.');
