@@ -1,11 +1,16 @@
-## Changes
-describe what changes this PR includes and explain why are they needed
+<!-- Insert here the linkink word and issue number, if applicable -->
 
-## Screenshots
-If applicable, add screenshots to explain the change.
+## What does this PR do?
+<!-- Describe what this PR does and explain why are they needed -->
+
+## Summary of changes
+<!-- List what changed in the project Example: Changed function X, added command Y -->
+
+## Media
+<!-- Put here screenshots, videos, gifs etc. of the new additions, or changes, if applicable -->
 
 ## Status
-
+<!-- Check the boxes that apply to this PR using "x" -->
 - [ ] These changes have been tested and formatted properly.
 - [ ] These changes also include the change in documentation accordingly.
-- [ ] This PR introduces some Breaking changes
+- [ ] This PR introduces some Breaking changes.

@@ -1,0 +1,30 @@
+name: 🚀 Feature request
+description: Suggest an idea for Falgames that you would like to see implemented.
+labels: [enhancement]
+body:
+  - type: markdown
+    attributes:
+      value: "# Feature request"
+
+  - type: textarea
+    id: description
+    attributes:
+      label: Feature description
+    validations:
+      required: true
+
+  - type: textarea
+    id: steps
+    attributes:
+      label: How to implement?
+      description: Have any idea how to implement this feature? Tell us!
+    validations:
+      required: false
+
+  - type: textarea
+    id: screenshot
+    attributes:
+      label: Media, if applicable
+      description: Screenshot, GIF, video, etc.
+    validations:
+      required: false
