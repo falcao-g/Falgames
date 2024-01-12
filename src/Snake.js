@@ -24,7 +24,7 @@ module.exports = class SnakeGame extends events {
     if (!options.snake.head) options.snake.head = '🟢';
     if (!options.snake.body) options.snake.body = '🟩';
     if (!options.snake.tail) options.snake.tail = '🟢';
-    if (!options.snake.skull) options.snake.skull = '💀';
+    if (!options.snake.over) options.snake.over = '💀';
 
     if (!options.emojis) options.emojis = {};
     if (!options.emojis.board) options.emojis.board = '⬛';
@@ -94,7 +94,7 @@ module.exports = class SnakeGame extends events {
           const pos = this.snake.indexOf(this.isSnake({ x: x, y: y }));
           if (pos === 0) {
             const isHead = (!isSkull || (this.snakeLength >= (HEIGHT * WIDTH) ));
-            board += isHead ? emojis.head : emojis.skull;
+            board += isHead ? emojis.head : emojis.over;
           } else if (pos === this.snake.length - 1) {
             board += emojis.tail;
           } else {
