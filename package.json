@@ -20,6 +20,11 @@
     "discord.js",
     "minigames"
   ],
+  "files": [
+    "src",
+    "index.js",
+    "utils"
+  ],
   "repository": {
     "type": "git",
     "url": "git+https://github.com/falcao-g/Falgames.git"
