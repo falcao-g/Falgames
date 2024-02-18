@@ -9,6 +9,7 @@
   "author": "Falcão",
   "license": "MIT",
   "dependencies": {
+    "canvas": "^2.11.2",
     "discord.js": "^14.14.1",
     "html-entities": "^2.3.3",
     "node-fetch": "^2.6.7"
