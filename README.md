@@ -63,7 +63,7 @@ const Game = new Snake({
 });
 ```
 
-Make sure to check out the [Examples](Examples) folder for more examples.
+Make sure to check out the [examples](examples) folder for more examples.
 
 ## **📜 Credits**
 
