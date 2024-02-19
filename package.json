@@ -24,7 +24,8 @@
   "files": [
     "src",
     "index.js",
-    "utils"
+    "utils",
+    "images"
   ],
   "repository": {
     "type": "git",
