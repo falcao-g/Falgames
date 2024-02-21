@@ -2,6 +2,7 @@ const { EmbedBuilder, ActionRowBuilder, AttachmentBuilder } = require("discord.j
 const { disableButtons, formatMessage, move, oppDirection, ButtonBuilder } = require("../utils/utils")
 const events = require("events")
 const { createCanvas, loadImage } = require("canvas")
+const path = require("path")
 
 module.exports = class TwoZeroFourEight extends events {
 	constructor(options = {}) {
@@ -82,7 +83,7 @@ module.exports = class TwoZeroFourEight extends events {
 
 		const images = {}
 		for (let i = 0; i < imageFilenames.length; i++) {
-			const imagePath = `../images/${imageFilenames[i]}`
+			const imagePath = path.join(__dirname, "..", "images", imageFilenames[i])
 			images[i] = await loadImage(imagePath).catch((err) => {
 				console.error(`Error loading image: ${imagePath}`)
 				throw err
