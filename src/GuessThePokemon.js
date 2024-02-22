@@ -1,6 +1,6 @@
 const { EmbedBuilder, AttachmentBuilder } = require('discord.js');
-const fetch = require('node-fetch');
 const events = require('events');
+const { createCanvas, loadImage } = require('canvas');
 
 
 module.exports = class GuessThePokemon extends events {
@@ -47,10 +47,15 @@ module.exports = class GuessThePokemon extends events {
       this.options.isSlashGame = true;
     }
 
-    const result = await fetch('https://api.aniket091.xyz/pokemon').then(res => res.json()).catch(e => { return {} });
-    if (!result.data) return this.sendMessage({ content: this.options.errMessage });
-    this.pokemon = result.data;
+    const API_URL = 'https://pokeapi.co/api/v2/pokemon/';
+    const result = await fetch( API_URL + this.randomInt(1, 1025)).then(res => res.json()).catch(e => { return null });
+    if (!result) return this.sendMessage({ content: this.options.errMessage });
 
+    this.pokemon.name = result.species.name;
+    this.pokemon.types = result.types.map(t => t.type.name);
+    this.pokemon.abilities = result.abilities.map(a => a.ability.name);
+    this.pokemon.answerImage = result.sprites.other['official-artwork'].front_default;
+    this.pokemon.questionImage = await this.createQuestionImage(result.sprites.other['official-artwork'].front_default);
 
     const embed = new EmbedBuilder()
     .setColor(this.options.embed.color)
@@ -78,12 +83,11 @@ module.exports = class GuessThePokemon extends events {
     })
   }
 
-
   async gameOver(msg, result) {
     const GuessThePokemonGame = { player: this.message.author, pokemon: this.pokemon };
     this.emit('gameOver', { result: result ? 'win' : 'lose', ...GuessThePokemonGame });
-    if (!result) return msg.edit({ content: this.options.loseMessage.replace('{pokemon}', this.pokemon.name), embeds: [], attachments: [] });
 
+    const resultMessage = result ? this.options.winMessage : this.options.loseMessage;
 
     const embed = new EmbedBuilder()
     .setColor(this.options.embed.color)
@@ -94,6 +98,33 @@ module.exports = class GuessThePokemon extends events {
     .setAuthor({ name: this.message.author.tag, iconURL: this.message.author.displayAvatarURL({ dynamic: true }) });
 
     const attachment = new AttachmentBuilder(this.pokemon.answerImage, { name: 'answer-image.png' });
-    return msg.edit({ content: this.options.winMessage.replace('{pokemon}', this.pokemon.name), embeds: [embed], files: [attachment] });
+    return msg.edit({ content: resultMessage.replace('{pokemon}', this.pokemon.name), embeds: [embed], files: [attachment] });
+  }
+
+  randomInt(min, max) {
+    return Math.floor(Math.random() * (max - min + 1)) + min;
+  }
+  
+  async createQuestionImage(pokemonImgURL) {
+    const size = 475;
+    // Create a canvas and draw the pokemon image on it
+    const canvas = createCanvas(size, size);
+    const ctx = canvas.getContext('2d');
+    const img = await loadImage(pokemonImgURL);
+    ctx.drawImage(img, 0, 0, canvas.width, canvas.height);
+    const imageData = ctx.getImageData(0, 0, canvas.width, canvas.height);
+    const data = imageData.data;
+  
+    const pxColor = [0, 0, 0]; // Black color
+    // Loop through the image data and change the color of the non-transparent pixels to black
+    for (let i = 0; i < data.length; i += 4) {
+      if (data[i + 3] < 10) continue; // skip transparent pixels (alpha < 10)
+      data[i] = pxColor[0];
+      data[i + 1] = pxColor[1];
+      data[i + 2] = pxColor[2];
+    }
+  
+    ctx.putImageData(imageData, 0, 0);
+    return canvas.toBuffer();
   }
 }
