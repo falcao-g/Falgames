@@ -7,6 +7,7 @@
 ```bash
 npm i falgames@latest
 ```
+Please note that Node v18+ is required.
 
 ## **✨ Features**
 

@@ -1,5 +1,4 @@
 const { EmbedBuilder, AttachmentBuilder } = require('discord.js');
-const fetch = require('node-fetch');
 const events = require('events');
 const { createCanvas, loadImage } = require('canvas');
 
@@ -87,8 +86,8 @@ module.exports = class GuessThePokemon extends events {
   async gameOver(msg, result) {
     const GuessThePokemonGame = { player: this.message.author, pokemon: this.pokemon };
     this.emit('gameOver', { result: result ? 'win' : 'lose', ...GuessThePokemonGame });
-    if (!result) return msg.edit({ content: this.options.loseMessage.replace('{pokemon}', this.pokemon.name), embeds: [], attachments: [] });
 
+    const resultMessage = result ? this.options.winMessage : this.options.loseMessage;
 
     const embed = new EmbedBuilder()
     .setColor(this.options.embed.color)
@@ -99,7 +98,7 @@ module.exports = class GuessThePokemon extends events {
     .setAuthor({ name: this.message.author.tag, iconURL: this.message.author.displayAvatarURL({ dynamic: true }) });
 
     const attachment = new AttachmentBuilder(this.pokemon.answerImage, { name: 'answer-image.png' });
-    return msg.edit({ content: this.options.winMessage.replace('{pokemon}', this.pokemon.name), embeds: [embed], files: [attachment] });
+    return msg.edit({ content: resultMessage.replace('{pokemon}', this.pokemon.name), embeds: [embed], files: [attachment] });
   }
 
   randomInt(min, max) {
