@@ -1,6 +1,5 @@
 const { EmbedBuilder, ActionRowBuilder } = require('discord.js');
 const { formatMessage, ButtonBuilder } = require('../utils/utils');
-const fetch = require('node-fetch');
 const events = require('events');
 
 
@@ -48,8 +47,10 @@ module.exports = class WouldYouRather extends events {
     else return await this.message.channel.send(content);
   }
 
+  // TODO: Add a method to get a random question from the API
   async getWyrQuestion() {
-    return await fetch('https://api.aniket091.xyz/wyr').then(res => res.json()).then(res => res?.data).catch(e => { return {} });
+    const API_URL = 'https://wouldurather.io/api/question?id='
+    return await fetch(API_URL + 1).then(res => res.json()).catch(e => { return {} });
   }
 
 
@@ -61,15 +62,13 @@ module.exports = class WouldYouRather extends events {
     }
 
     this.data = await this.getWyrQuestion();
-    if (!this.data.title) return this.sendMessage({ content: this.options.errMessage });
 
 
     const embed = new EmbedBuilder()
     .setColor(this.options.embed.color)
     .setTitle(this.options.embed.title)
     .setDescription(`1. ${this.data.option1} \n2. ${this.data.option2}`)
-    .setAuthor({ name: this.message.author.tag, iconURL: this.message.author.displayAvatarURL({ dynamic: true }) })
-    .addFields({ name: 'Details', value: `**Title:** ${this.data.title}\n**Author:** ${this.data.author}` })
+    .setAuthor({ name: this.message.author.tag, iconURL: this.message.author.displayAvatarURL({ dynamic: true }) });
 
 
     const btn1 = new ButtonBuilder().setStyle(this.options.buttonStyle).setLabel(this.options.buttons.option1).setCustomId('wyr_1').setEmoji('1️⃣');
@@ -97,15 +96,14 @@ module.exports = class WouldYouRather extends events {
     const WouldYouRatherGame = { player: this.message.author, question: this.data, selected: this.data['option'+result] };
     this.emit('gameOver', { result: 'finish', ...WouldYouRatherGame });
 
-    const prnt1 = Math.floor(parseInt(this.data.option1_votes) / (parseInt(this.data.option1_votes) + parseInt(this.data.option2_votes)) * 100);
-    const prnt2 = Math.floor(parseInt(this.data.option2_votes) / (parseInt(this.data.option1_votes) + parseInt(this.data.option2_votes)) * 100);
+    const prnt1 = Math.floor(parseInt(this.data.option1Votes) / (parseInt(this.data.option1Votes) + parseInt(this.data.option2Votes)) * 100);
+    const prnt2 = Math.floor(parseInt(this.data.option2Votes) / (parseInt(this.data.option1Votes) + parseInt(this.data.option2Votes)) * 100);
 
 
     const embed = new EmbedBuilder()
     .setColor(this.options.embed.color)
     .setTitle(this.options.embed.title)
-    .setAuthor({ name: this.message.author.tag, iconURL: this.message.author.displayAvatarURL({ dynamic: true }) })
-    .addFields({ name: 'Details', value: `**Title:** ${this.data.title}\n**Author:** ${this.data.author}` })
+    .setAuthor({ name: this.message.author.tag, iconURL: this.message.author.displayAvatarURL({ dynamic: true }) });
 
     if (result === '1') embed.setDescription(`**1. ${this.data.option1} (${prnt1}%)**\n2. ${this.data.option2} (${prnt2})%`);
     else embed.setDescription(`1. ${this.data.option1} (${prnt1}%)\n**2. ${this.data.option2} (${prnt2})%**`);
