@@ -104,8 +104,8 @@ module.exports = class WouldYouRather extends events {
     .setTitle(this.options.embed.title)
     .setAuthor({ name: this.message.author.tag, iconURL: this.message.author.displayAvatarURL({ dynamic: true }) });
 
-    if (result === '1') embed.setDescription(`**1. ${this.data.option1} (${prnt1}%)**\n2. ${this.data.option2} (${prnt2})%`);
-    else embed.setDescription(`1. ${this.data.option1} (${prnt1}%)\n**2. ${this.data.option2} (${prnt2})%**`);
+    if (result === '1') embed.setDescription(`**1. ${this.data.option1} (${prnt1}%)**\n2. ${this.data.option2} (${prnt2}%)`);
+    else embed.setDescription(`1. ${this.data.option1} (${prnt1}%)\n**2. ${this.data.option2} (${prnt2}%)**`);
     
     return await msg.edit({ embeds: [embed], components: [] });    
   }
