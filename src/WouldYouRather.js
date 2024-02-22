@@ -1,5 +1,5 @@
 const { EmbedBuilder, ActionRowBuilder } = require('discord.js');
-const { formatMessage, ButtonBuilder } = require('../utils/utils');
+const { formatMessage, ButtonBuilder, randomInt } = require('../utils/utils');
 const events = require('events');
 
 
@@ -47,10 +47,9 @@ module.exports = class WouldYouRather extends events {
     else return await this.message.channel.send(content);
   }
 
-  // TODO: Add a method to get a random question from the API
   async getWyrQuestion() {
     const API_URL = 'https://wouldurather.io/api/question?id='
-    return await fetch(API_URL + 1).then(res => res.json()).catch(e => { return {} });
+    return await fetch(API_URL + randomInt(1, 568)).then(res => res.json()).catch(e => { return {} });
   }
 
 
