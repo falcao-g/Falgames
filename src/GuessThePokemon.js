@@ -1,7 +1,7 @@
 const { EmbedBuilder, AttachmentBuilder } = require('discord.js');
 const fetch = require('node-fetch');
 const events = require('events');
-const canvas = require('canvas');
+const { createCanvas, loadImage } = require('canvas');
 
 
 module.exports = class GuessThePokemon extends events {
@@ -109,11 +109,11 @@ module.exports = class GuessThePokemon extends events {
   async createQuestionImage(pokemonImgURL) {
     const size = 475;
     // Create a canvas and draw the pokemon image on it
-    const cv = canvas.createCanvas(size, size);
-    const ctx = cv.getContext('2d');
-    const img = await canvas.loadImage(pokemonImgURL);
-    ctx.drawImage(img, 0, 0, cv.width, cv.height);
-    const imageData = ctx.getImageData(0, 0, cv.width, cv.height);
+    const canvas = createCanvas(size, size);
+    const ctx = canvas.getContext('2d');
+    const img = await loadImage(pokemonImgURL);
+    ctx.drawImage(img, 0, 0, canvas.width, canvas.height);
+    const imageData = ctx.getImageData(0, 0, canvas.width, canvas.height);
     const data = imageData.data;
   
     const pxColor = [0, 0, 0]; // Black color
@@ -126,6 +126,6 @@ module.exports = class GuessThePokemon extends events {
     }
   
     ctx.putImageData(imageData, 0, 0);
-    return cv.toBuffer();
+    return canvas.toBuffer();
   }
 }
