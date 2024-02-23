@@ -1,5 +1,4 @@
 const { EmbedBuilder, AttachmentBuilder } = require('discord.js');
-const words = require('../utils/words.json');
 const events = require('events');
 const { createCanvas } = require('canvas');
 
@@ -112,7 +111,7 @@ module.exports = class Wordle extends events {
 
       this.word = obj.solution;
     }
-    
+
 
     const embed = new EmbedBuilder()
     .setColor(this.options.embed.color)
