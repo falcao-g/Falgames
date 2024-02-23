@@ -1,6 +1,7 @@
 const { EmbedBuilder, AttachmentBuilder } = require('discord.js');
 const words = require('../utils/words.json');
 const events = require('events');
+const { createCanvas } = require('canvas');
 
 
 module.exports = class Wordle extends events {
@@ -43,9 +44,39 @@ module.exports = class Wordle extends events {
     else return await this.message.channel.send(content);
   }
 
-  async getBoardImage() {
-    const guess = this.guessed.length ? '&guessed='+this.guessed.join(',') : '';
-    return await new AttachmentBuilder('https://api.aniket091.xyz/wordle?word=' + this.word + guess, { name: 'wordle.png' });
+  getBoardImage() {
+    const squareSize = 62;
+    const gap = 5;
+    const boardDimensions = { width: squareSize * 5 + gap * 6, height: squareSize * 6 + gap * 7 };
+
+    const canvas = createCanvas(boardDimensions.width, boardDimensions.height);
+    const ctx = canvas.getContext('2d');
+    ctx.font = 'bold 30px Sans';
+     
+    for (let y = 0; y < 6; y++) {
+      for (let x = 0; x < 5; x++) {
+        const splittedWord = this.guessed[y] ? this.guessed[y].split('').map(l => l.toLowerCase()) : [];
+
+        // Draw the squares
+        if (splittedWord[x] && splittedWord[x] === this.word[x]) ctx.fillStyle = '#558d50';
+        else if (this.word.includes(splittedWord[x])) ctx.fillStyle = '#b39f42';
+        else if (this.guessed[y]) ctx.fillStyle = '#3a3a3c';
+        else ctx.fillStyle = 'transparent';
+
+        // Draw the strokes
+        ctx.strokeStyle = this.guessed[y] ? 'transparent' : '#fcfcfc';
+        ctx.fillRect(x * (squareSize + gap) + gap, y * (squareSize + gap) + gap, squareSize, squareSize);
+        ctx.strokeRect(x * (squareSize + gap) + gap, y * (squareSize + gap) + gap, squareSize, squareSize);
+
+        // Draw the letters
+        ctx.fillStyle = '#ffffff';
+        ctx.textAlign = 'center';
+        ctx.textBaseline = 'middle';
+        ctx.fillText(splittedWord[x] ? splittedWord[x].toUpperCase() : '', x * (squareSize + gap) + gap + squareSize / 2, y * (squareSize + gap) + gap + squareSize / 2);
+      }
+    }
+    
+    return new AttachmentBuilder(canvas.toBuffer('image/png'), { name: 'wordle.png' });
   }
 
 
@@ -64,7 +95,7 @@ module.exports = class Wordle extends events {
     .setImage('attachment://wordle.png')
     .setFooter({ text: this.message.author.tag, iconURL: this.message.author.displayAvatarURL({ dynamic: true }) });
 
-    const msg = await this.sendMessage({ embeds: [embed], files: [await this.getBoardImage()] });
+    const msg = await this.sendMessage({ embeds: [embed], files: [this.getBoardImage()] });
     const filter = (m) => m.author.id === this.message.author.id && m.content.length === 5;
     const collector = this.message.channel.createMessageCollector({ idle: this.options.timeoutTime, filter: filter });
 
