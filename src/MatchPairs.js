@@ -122,7 +122,7 @@ module.exports = class MatchPairs extends events {
 
 
   async handleButtons(msg) {
-    const collector = msg.createMessageComponentCollector({ idle: this.options.time });
+    const collector = msg.createMessageComponentCollector({ idle: this.options.timeoutTime });
 
     collector.on('collect', async btn => {
       await btn.deferUpdate().catch(e => {});
