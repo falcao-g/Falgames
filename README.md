@@ -30,7 +30,7 @@ npm i falgames
 
 ## 📷 Preview
 
-![Preview](/assets/preview.png)
+![Preview](/assets/readme.png)
 
 ## **📚 Usage**
 
