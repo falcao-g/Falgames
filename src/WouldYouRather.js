@@ -4,6 +4,22 @@ const events = require('events');
 
 
 module.exports = class WouldYouRather extends events {
+  /**
+   * Represents a Would You Rather game.
+   * @constructor
+   * @param {Object} options - The options for the Would You Rather game.
+   * @param {boolean} [options.isSlashGame=false] - Whether the game is played using slash commands.
+   * @param {Object} options.message - The message object associated with the game.
+   * @param {Object} [options.embed={}] - The embed options for the game.
+   * @param {string} [options.embed.title='Would You Rather'] - The title of the embed.
+   * @param {string} [options.embed.color='#551476'] - The color of the embed.
+   * @param {Object} [options.buttons={}] - The button options for the game.
+   * @param {string} [options.buttons.option1='Option 1'] - The label for the first button.
+   * @param {string} [options.buttons.option2='Option 2'] - The label for the second button.
+   * @param {string} [options.errMessage='Unable to fetch question data! Please try again.'] - The error message for the game.
+   * @param {string} [options.buttonStyle='PRIMARY'] - The style for the buttons.
+   * @param {string} [options.playerOnlyMessage='Only {player} can use these buttons.'] - The message to show when someone else tries to use the buttons.
+  */
   constructor(options = {}) {
 
     if (!options.isSlashGame) options.isSlashGame = false;

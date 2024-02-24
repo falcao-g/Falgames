@@ -5,6 +5,28 @@ const events = require('events');
 
 
 module.exports = class Hangman extends events {
+  /**
+   * Represents a Hangman game.
+   * @constructor
+   * @param {Object} options - The options for the Hangman game.
+   * @param {boolean} [options.isSlashGame=false] - Whether the game is played using slash commands.
+   * @param {Object} options.message - The message object associated with the game.
+   * @param {Object} [options.embed] - The embed options for the game.
+   * @param {string} [options.embed.title='Hangman'] - The title of the embed.
+   * @param {string} [options.embed.color='#551476'] - The color of the embed.
+   * @param {Object} [options.hangman] - The hangman options for the game.
+   * @param {string} [options.hangman.hat='🎩'] - The hat emoji for the hangman.
+   * @param {string} [options.hangman.head='😟'] - The head emoji for the hangman.
+   * @param {string} [options.hangman.shirt='👕'] - The shirt emoji for the hangman.
+   * @param {string} [options.hangman.pants='🩳'] - The pants emoji for the hangman.
+   * @param {string} [options.hangman.boots='👞👞'] - The boots emoji for the hangman.
+   * @param {string} [options.customWord=null] - The custom word for the game.
+   * @param {number} [options.timeoutTime=60000] - The timeout time for the game.
+   * @param {string} [options.theme] - The theme for the game.
+   * @param {string} [options.winMessage='You won! The word was **{word}**.'] - The win message.
+   * @param {string} [options.loseMessage='You lost! The word was **{word}**.'] - The lose message.
+   * @param {string} [options.playerOnlyMessage] - The message to show when someone else tries to use the buttons.
+  */
   constructor(options = {}) {
 
     if (!options.isSlashGame) options.isSlashGame = false;

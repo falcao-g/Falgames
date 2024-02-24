@@ -4,6 +4,33 @@ const approve = require('../utils/approve');
 
 
 module.exports = class TicTacToe extends approve {
+  /**
+   * Represents a TicTacToe game.
+   * @constructor
+   * @param {Object} options - The options for the TicTacToe game.
+   * @param {boolean} [options.isSlashGame=false] - Whether the game is played using slash commands.
+   * @param {Object} options.message - The message object associated with the game.
+   * @param {Object} options.opponent - The opponent object for the game.
+   * @param {Object} [options.embed={}] - The embed options for the game.
+   * @param {string} [options.embed.title='Tic Tac Toe'] - The title of the embed.
+   * @param {string} [options.embed.statusTitle='Status'] - The status title of the embed.
+   * @param {string} [options.embed.overTitle='Game Over'] - The game over title of the embed.
+   * @param {string} [options.embed.color='#551476'] - The color of the embed.
+   * @param {Object} [options.emojis={}] - The emojis for the game.
+   * @param {string} [options.emojis.xButton='❌'] - The emoji for the X button.
+   * @param {string} [options.emojis.oButton='🔵'] - The emoji for the O button.
+   * @param {string} [options.emojis.blankButton='➖'] - The emoji for the blank button.
+   * @param {number} [options.timeoutTime=60000] - The timeout time for the game.
+   * @param {string} [options.xButtonStyle='DANGER'] - The style for the X button.
+   * @param {string} [options.oButtonStyle='PRIMARY'] - The style for the O button.
+   * @param {string} [options.turnMessage='{emoji} | Its turn of player **{player}**.'] - The turn message for the game.
+   * @param {string} [options.winMessage='{emoji} | **{player}** won the TicTacToe Game.'] - The win message for the game.
+   * @param {string} [options.tieMessage='The Game tied! No one won the Game!'] - The tie message for the game.
+   * @param {string} [options.timeoutMessage='The Game went unfinished! No one won the Game!'] - The timeout message for the game.
+   * @param {string} [options.requestMessage='{player} has invited you for a round of **Tic Tac Toe**.'] - The request message for the game.
+   * @param {string} [options.rejectMessage='The player denied your request for a round of **Tic Tac Toe**.'] - The reject message for the game.
+   * @param {string} [options.playerOnlyMessage='Only {player} and {opponent} can use these buttons.'] - The message to show when someone else tries to use the buttons.
+  */
   constructor(options = {}) {
 
     if (!options.isSlashGame) options.isSlashGame = false;

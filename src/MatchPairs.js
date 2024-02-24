@@ -4,6 +4,22 @@ const events = require('events');
 
 
 module.exports = class MatchPairs extends events {
+  /**
+   * Represents a MatchPairs game.
+   * @constructor
+   * @param {Object} options - Options to set for the MatchPairs game.
+   * @param {Object} options.message - The message object associated with the game.
+   * @param {boolean} [options.isSlashGame=false] - Whether the game is played using slash commands.
+   * @param {Object} [options.embed] - The embed options for the game.
+   * @param {string} [options.embed.title='Match Pairs'] - The title of the embed.
+   * @param {string} [options.embed.color='#551476'] - The color of the embed.
+   * @param {string} [options.embed.description='**Click on the buttons to match emojis with their pairs.**'] - The description of the embed.
+   * @param {number} [options.timeoutTime=60000] - The timeout time for the game.
+   * @param {string[]} [options.emojis] - The emojis to use for the game.
+   * @param {string} [options.winMessage='**You won the Game! You turned a total of `{tilesTurned}` tiles.**'] - The win message for the game.
+   * @param {string} [options.loseMessage='**You lost the Game! You turned a total of `{tilesTurned}` tiles.**'] - The lose message for the game.
+   * @param {string} [options.playerOnlyMessage='Only {player} can use these buttons.'] - The message to show when someone else tries to use the buttons.
+  */
   constructor(options = {}) {
 
     if (!options.isSlashGame) options.isSlashGame = false;

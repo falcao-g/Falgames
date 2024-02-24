@@ -3,6 +3,40 @@ const events = require('events');
 
 
 module.exports = class FishyGame extends events {
+  /**
+   * Represents a Fishy game.
+   * @constructor
+   * @param {Object} options - The options for the Fishy game.
+   * @param {boolean} [options.isSlashGame=false] - Whether the game is played using slash commands.
+   * @param {Object} options.message - The message object associated with the game.
+   * @param {Object} [options.embed={}] - The embed options for the game.
+   * @param {string} [options.embed.title='Fishy Inventory'] - The title of the embed.
+   * @param {string} [options.embed.color='#551476'] - The color of the embed.
+   * @param {Object} [options.player={}] - The player options for the game.
+   * @param {string} [options.player.id] - The ID of the player.
+   * @param {number} [options.player.balance=50] - The balance of the player.
+   * @param {Object} [options.player.fishes={}] - The fishes owned by the player.
+   * @param {Object} [options.fishes={}] - The available fishes in the game.
+   * @param {Object} [options.fishes.junk] - The options for the junk fish.
+   * @param {string} [options.fishes.junk.emoji='🔧'] - The emoji representation of the junk fish.
+   * @param {number} [options.fishes.junk.price=5] - The price of the junk fish.
+   * @param {Object} [options.fishes.common] - The options for the common fish.
+   * @param {string} [options.fishes.common.emoji='🐟'] - The emoji representation of the common fish.
+   * @param {number} [options.fishes.common.price=10] - The price of the common fish.
+   * @param {Object} [options.fishes.uncommon] - The options for the uncommon fish.
+   * @param {string} [options.fishes.uncommon.emoji='🐠'] - The emoji representation of the uncommon fish.
+   * @param {number} [options.fishes.uncommon.price=20] - The price of the uncommon fish.
+   * @param {Object} [options.fishes.rare] - The options for the rare fish.
+   * @param {string} [options.fishes.rare.emoji='🐡'] - The emoji representation of the rare fish.
+   * @param {number} [options.fishes.rare.price=50] - The price of the rare fish.
+   * @param {number} [options.fishyRodPrice=10] - The price of the fishing rod.
+   * @param {string} [options.catchMessage='You caught a {fish}. You paid {amount} for the fishing rod.'] - The message displayed when a fish is caught.
+   * @param {string} [options.sellMessage='You sold {amount}x {fish} {type} items for a total of {price}.'] - The message displayed when fish is sold.
+   * @param {string} [options.noBalanceMessage='You don\'t have enough balance to rent a fishing rod.'] - The message displayed when the player doesn't have enough balance.
+   * @param {string} [options.invalidTypeMessage='Fish type can only be junk, common, uncommon or rare.'] - The message displayed when an invalid fish type is provided.
+   * @param {string} [options.invalidAmountMessage='Amount must be between 0 and fish max amount.'] - The message displayed when an invalid amount is provided.
+   * @param {string} [options.noItemMessage='You don\'t have any of this item in your inventory.'] - The message displayed when the player doesn't have the requested item.
+   */
   constructor(options = {}) {
 
     if (!options.isSlashGame) options.isSlashGame = false;

@@ -6,6 +6,27 @@ const events = require('events');
 
 
 module.exports = class Trivia extends events {
+  /** 
+   * Represents a Trivia game.
+   * @constructor
+   * @param {Object} options - Options to set for the Trivia game.
+   * @param {Object} options.message - The message object associated with the game.
+   * @param {boolean} [options.isSlashGame=false] - Whether the game is played using slash commands.
+   * @param {Object} [options.embed] - The embed options for the game.
+   * @param {string} [options.embed.title='Trivia'] - The title of the embed.
+   * @param {string} [options.embed.color='#551476'] - The color of the embed.
+   * @param {string} [options.embed.description='You have 60 seconds to guess the answer.'] - The description of the embed.
+   * @param {string} [options.mode='multiple'] - The mode of the trivia game. Can be 'multiple' or 'single'.
+   * @param {number} [options.timeoutTime=60000] - The timeout time for the game.
+   * @param {string} [options.buttonStyle='PRIMARY'] - The style of the buttons for multiple mode.
+   * @param {string} [options.trueButtonStyle='SUCCESS'] - The style of the true button for single mode.
+   * @param {string} [options.falseButtonStyle='DANGER'] - The style of the false button for single mode.
+   * @param {string} [options.difficulty] - The difficulty of the trivia question. Can be 'easy', 'medium' or 'hard'.
+   * @param {string} [options.winMessage='You won! The correct answer is {answer}.'] - The win message for the game.
+   * @param {string} [options.loseMessage='You lost! The correct answer is {answer}.'] - The lose message for the game.
+   * @param {string} [options.errMessage='Unable to fetch question data! Please try again.'] - The error message for the game.
+   * @param {string} [options.playerOnlyMessage='Only {player} can use these buttons.'] - The message to show when someone else tries to use the buttons.
+  */
   constructor(options = {}) {
 
     if (!options.isSlashGame) options.isSlashGame = false;

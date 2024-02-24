@@ -5,6 +5,33 @@ const HEIGHT = 10
 const WIDTH = 15
 
 module.exports = class SnakeGame extends events {
+	/**
+	 * Represents a Snake game.
+	 * @constructor
+	 * @param {Object} options - The options for the Snake game.
+	 * @param {boolean} [options.isSlashGame=false] - Whether the game is played using slash commands.
+	 * @param {Object} options.message - The message object associated with the game.
+	 * @param {Object} [options.embed={}] - The embed options for the game.
+	 * @param {string} [options.embed.title='Snake Game'] - The title of the embed.
+	 * @param {string} [options.embed.color='#551476'] - The color of the embed.
+	 * @param {string} [options.embed.overTitle='Game Over'] - The title of the embed when the game is over.
+	 * @param {string} [options.embed.scoreText='**Score:**'] - The score text in the embed.
+	 * @param {Object} [options.snake={}] - The snake options for the game.
+	 * @param {string} [options.snake.head='🟢'] - The head of the snake.
+	 * @param {string} [options.snake.body='🟩'] - The body of the snake.
+	 * @param {string} [options.snake.tail='🟢'] - The tail of the snake.
+	 * @param {string} [options.snake.over='💀'] - The emoji to show when the snake dies.
+	 * @param {Object} [options.emojis={}] - The emojis for the game.
+	 * @param {string} [options.emojis.board='⬛'] - The board emoji.
+	 * @param {string} [options.emojis.up='⬆️'] - The up emoji.
+	 * @param {string} [options.emojis.down='⬇️'] - The down emoji.
+	 * @param {string} [options.emojis.left='⬅️'] - The left emoji.
+	 * @param {string} [options.emojis.right='➡️'] - The right emoji.
+	 * @param {string[]} [options.foods=[]] - The foods emojis for the game.
+	 * @param {string} [options.stopButton='Stop'] - The stop button label.
+	 * @param {number} [options.timeoutTime=60000] - The timeout time for the game.
+	 * @param {string} [options.playerOnlyMessage='Only {player} can use these buttons.'] - The message to show when someone else tries to use the buttons.
+	*/
 	constructor(options = {}) {
 		if (!options.isSlashGame) options.isSlashGame = false
 		if (!options.message) throw new TypeError("NO_MESSAGE: No message option was provided.")

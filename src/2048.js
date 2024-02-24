@@ -5,6 +5,25 @@ const { createCanvas, loadImage } = require("canvas")
 const path = require("path")
 
 module.exports = class TwoZeroFourEight extends events {
+	/**
+	 * Represents a 2048 game.
+	 * @constructor
+	 * @param {Object} options - The options for the 2048 game.
+	 * @param {boolean} [options.isSlashGame=false] - Whether the game is played using slash commands.
+	 * @param {Object} options.message - The message object associated with the game.
+	 * @param {Object} [options.embed] - The embed options for the game.
+	 * @param {string} [options.embed.title="2048"] - The title of the embed.
+	 * @param {string} [options.embed.color="#551476"] - The color of the embed.
+	 * @param {Object} [options.emojis] - The emojis for the game.
+	 * @param {string} [options.emojis.up="⬆️"] - The emoji for the up direction.
+	 * @param {string} [options.emojis.down="⬇️"] - The emoji for the down direction.
+	 * @param {string} [options.emojis.left="⬅️"] - The emoji for the left direction.
+	 * @param {string} [options.emojis.right="➡️"] - The emoji for the right direction.
+	 * @param {number} [options.timeoutTime=60000] - The timeout time for the game.
+	 * @param {string} [options.stopButton="Stop"] - The label for the stop button.
+	 * @param {string} [options.buttonStyle="PRIMARY"] - The style of the buttons.
+	 * @param {string} [options.playerOnlyMessage="Only {player} can use these buttons."] - The message shown when someone else tries to use the buttons.
+	 */
 	constructor(options = {}) {
 		if (!options.isSlashGame) options.isSlashGame = false
 		if (!options.message) throw new TypeError("NO_MESSAGE: No message option was provided.")

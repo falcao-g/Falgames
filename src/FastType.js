@@ -3,6 +3,22 @@ const events = require('events');
 
 
 module.exports = class FastType extends events {
+  /**
+   * Represents a FastType game.
+   * @constructor
+   * @param {Object} options - The options the FastType game.
+   * @param {boolean} [options.isSlashGame=false] - Whether the game is played using slash commands.
+   * @param {Object} options.message - The message object associated with the game.
+   * @param {Object} [options.embed={}] - The embed options for the game.
+   * @param {string} [options.embed.title='Fast Type'] - The title of the embed.
+   * @param {string} [options.embed.color='#551476'] - The color of the embed.
+   * @param {string} [options.embed.description='You have {time} seconds to type the sentence below.'] - The description of the embed.
+   * @param {string} [options.embed.sentenceTitle='Sentence'] - The title of the sentence in the embed.
+   * @param {string} [options.sentence='Some really cool sentence to fast type.'] - The sentence to be typed.
+   * @param {string} [options.winMessage='You won! You finished the type race in {time} seconds with word per minute of {wpm}.'] - The win message.
+   * @param {string} [options.loseMessage='You lost! You didn\'t type the correct sentence in time.'] - The lose message.
+   * @param {number} [options.timeoutTime=60000] - The timeout time for the game.
+   */
   constructor(options = {}) {
 
     if (!options.isSlashGame) options.isSlashGame = false;
