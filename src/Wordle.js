@@ -1,5 +1,4 @@
 const { EmbedBuilder, AttachmentBuilder } = require('discord.js');
-const words = require('../utils/words.json');
 const events = require('events');
 const { createCanvas } = require('canvas');
 
@@ -21,6 +20,7 @@ module.exports = class Wordle extends events {
     if (!options.timeoutTime) options.timeoutTime = 60000;
     if (!options.winMessage) options.winMessage = 'You won! The word was **{word}**.';
     if (!options.loseMessage) options.loseMessage = 'You lost! The word was **{word}**.';
+    if (!options.errMessage) options.errMessage = 'Unable to fetch wordle data! Please try again.';
     
 
     if (typeof options.embed !== 'object') throw new TypeError('INVALID_EMBED: embed option must be an object.');
@@ -28,6 +28,7 @@ module.exports = class Wordle extends events {
     if (typeof options.timeoutTime !== 'number') throw new TypeError('INVALID_TIME: Timeout time option must be a number.');
     if (typeof options.winMessage !== 'string') throw new TypeError('INVALID_MESSAGE: Win message option must be a string.');
     if (typeof options.loseMessage !== 'string') throw new TypeError('INVALID_MESSAGE: Lose message option must be a string.');
+    if (typeof options.errMessage !== 'string') throw new TypeError('INVALID_MESSAGE: Error message option must be a string.');
     if (options.customWord && typeof options.customWord !== 'string') throw new TypeError('INVALID_WORD: Custom Word must be a string.');
     if (options.customWord && options.customWord.length !== 5) throw new RangeError('INVALID_WORD: Custom Word must be of 5 letters.');   
 
@@ -79,6 +80,23 @@ module.exports = class Wordle extends events {
     return new AttachmentBuilder(canvas.toBuffer('image/png'), { name: 'wordle.png' });
   }
 
+  async getWordleWord() {
+    const API_URL = 'https://www.nytimes.com/svc/wordle/v2/';
+    const firtDate = new Date(2021, 5, 19);
+    const randomDate = new Date(
+      firtDate.getTime() + Math.random() * (new Date().getTime() - firtDate.getTime()),
+    );
+
+    return await fetch(API_URL + this.formatDate(randomDate) + '.json').then(res => res.json()).catch(e => { return null });
+  }
+
+  formatDate(date) {
+    const year = date.toLocaleString('default', {year: 'numeric'});
+    const month = date.toLocaleString('default', {month: '2-digit'});
+    const day = date.toLocaleString('default', {day: '2-digit'});
+
+    return [year, month, day].join('-');
+  }
 
   async startGame() {
     if (this.options.isSlashGame || !this.message.author) {
@@ -86,7 +104,13 @@ module.exports = class Wordle extends events {
       this.message.author = this.message.user;
       this.options.isSlashGame = true;
     }
-    if (!this.word) this.word = words['wordle'][Math.floor(Math.random() * words['wordle'].length)];
+    // If a custom word is not provided, fetch a random word from the NYTimes API
+    if (!this.word) {
+      const obj = await this.getWordleWord();
+      if (!obj) return this.sendMessage({ content: this.options.errMessage });
+
+      this.word = obj.solution;
+    }
 
 
     const embed = new EmbedBuilder()
