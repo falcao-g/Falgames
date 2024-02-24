@@ -28,6 +28,10 @@ Please note that Node v18+ and Discord.js v14+ is required.
 npm i falgames
 ```
 
+## 📷 Preview
+
+![Preview](/assets/preview.png)
+
 ## **📚 Usage**
 
 Starting a game with Falgames is as easy as the following example:
