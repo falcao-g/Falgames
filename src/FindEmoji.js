@@ -4,6 +4,26 @@ const events = require('events');
 
 
 module.exports = class FindEmoji extends events {  
+  /**
+   * Represents a FindEmoji game.
+   * @constructor
+   * @param {Object} options - The options for the FindEmoji game.
+   * @param {boolean} [options.isSlashGame=false] - Whether the game is played using slash commands.
+   * @param {Object} options.message - The message object associated with the game.
+   * @param {Object} [options.embed] - The embed options for the game.
+   * @param {string} [options.embed.title="Find Emoji"] - The title of the embed.
+   * @param {string} [options.embed.color="#551476"] - The color of the embed.
+   * @param {string} [options.embed.description="Remember the emojis from the board below."] - The description of the embed.
+   * @param {string} [options.embed.findDescription="Find the {emoji} emoji before the time runs out."] - The find description of the embed.
+   * @param {number} [options.timeoutTime=60000] - The timeout for the game.
+   * @param {number} [options.hideEmojiTime=5000] - The time to hide the emojis.
+   * @param {string} [options.buttonStyle="PRIMARY"] - The style of the buttons.
+   * @param {string[]} [options.emojis] - The emojis for the game.
+   * @param {string} [options.winMessage="You won! You selected the correct emoji. {emoji}"] - The win message.
+   * @param {string} [options.loseMessage="You lost! You selected the wrong emoji. {emoji}"] - The lose message.
+   * @param {string} [options.timeoutMessage="You lost! You ran out of time. The emoji is {emoji}"] - The timeout message.
+   * @param {string} [options.playerOnlyMessage] - The message to show when someone else tries to use the buttons.
+   */
   constructor(options = {}) {
 
     if (!options.isSlashGame) options.isSlashGame = false;

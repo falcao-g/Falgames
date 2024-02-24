@@ -2,6 +2,19 @@ const { EmbedBuilder } = require("discord.js")
 const events = require("events")
 
 module.exports = class Roll extends events {
+	/**
+	 * Represents a Roll game.
+	 * @constructor
+	 * @param {Object} options - The options for the Roll game.
+	 * @param {boolean} [options.isSlashGame=false] - Whether the game is played using slash commands.
+	 * @param {Object} options.message - The message object associated with the game.
+	 * @param {Object} [options.embed={}] - The embed options for the game.
+	 * @param {string} [options.embed.title='Dice Roll'] - The title of the embed.
+	 * @param {string} [options.embed.color='#551476'] - The color of the embed.
+	 * @param {string} [options.notValidRollMessage='Please provide a valid roll.'] - The message to show when an invalid roll is provided.
+	 * @param {number} [options.rollLimit=500] - The roll limit.
+	 * @param {string} [options.rollLimitMessage='You can\'t roll this many dice.'] - The message to show when the roll limit is exceeded.
+	 */
 	constructor(options = {}) {
 		if (!options.isSlashGame) options.isSlashGame = false
 		if (!options.message) throw new TypeError("NO_MESSAGE: No message option was provided.")

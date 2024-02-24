@@ -2,6 +2,17 @@ const { EmbedBuilder } = require("discord.js")
 const events = require("events")
 
 module.exports = class Slots extends events {
+	/**
+	 * Represents a Slot Machine game.
+	 * @param {Object} options - The options for the Slots class.
+	 * @param {boolean} [options.isSlashGame=false] - Whether the game is played using slash commands.
+	 * @param {Object} options.message - The message object associated with the game.
+	 * @param {Object} options.embed - The embed options for the game.
+	 * @param {string} [options.embed.title="Slot Machine"] - The title of the embed.
+	 * @param {string} [options.embed.color="#551476"] - The color of the embed.
+	 * @param {string[]} [options.slots=["🍇", "🍊", "🍋", "🍌"]] - The array of slots emojis.
+	 * @throws {TypeError} - If the options are invalid.
+	 */
 	constructor(options = {}) {
 		if (!options.isSlashGame) options.isSlashGame = false
 		if (!options.message) throw new TypeError("NO_MESSAGE: No message option was provided.")

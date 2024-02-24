@@ -4,6 +4,35 @@ const approve = require('../utils/approve');
 
 
 module.exports = class RPSGame extends approve {
+  /**
+   * Represents a Rock Paper Scissors game.
+   * @constructor
+   * @param {Object} options - The options for the Rock Paper Scissors game.
+   * @param {boolean} [options.isSlashGame=false] - Whether the game is played using slash commands.
+   * @param {Object} options.message - The message object associated with the game.
+   * @param {Object} options.opponent - The opponent for the game.
+   * @param {Object} [options.embed] - The embed options for the game.
+   * @param {string} [options.embed.title='Rock Paper Scissors'] - The title of the embed.
+   * @param {string} [options.embed.color='#551476'] - The color of the embed.
+   * @param {string} [options.embed.description='Press a button below to make a choice.'] - The description of the embed.
+   * @param {Object} [options.buttons] - The button labels for the game.
+   * @param {string} [options.buttons.rock='Rock'] - The label for the rock button.
+   * @param {string} [options.buttons.paper='Paper'] - The label for the paper button.
+   * @param {string} [options.buttons.scissors='Scissors'] - The label for the scissors button.
+   * @param {Object} [options.emojis] - The emojis for the game.
+   * @param {string} [options.emojis.rock='🌑'] - The emoji for the rock button.
+   * @param {string} [options.emojis.paper='📰'] - The emoji for the paper button.
+   * @param {string} [options.emojis.scissors='✂️'] - The emoji for the scissors button.
+   * @param {number} [options.timeoutTime=60000] - The timeout time for the game.
+   * @param {string} [options.buttonStyle='PRIMARY'] - The style for the buttons.
+   * @param {string} [options.pickMessage='You choose {emoji}.'] - The message to show when a player picks a choice.
+   * @param {string} [options.winMessage='**{player}** won the Game! Congratulations!'] - The win message for the game.
+   * @param {string} [options.tieMessage='The Game tied! No one won the Game!'] - The tie message for the game.
+   * @param {string} [options.timeoutMessage='The Game went unfinished! No one won the Game!'] - The timeout message for the game.
+   * @param {string} [options.requestMessage='{player} has invited you for a round of **Rock Paper Scissors**.'] - The message to show when a player invites another player for a game.
+   * @param {string} [options.rejectMessage='The player denied your request for a round of **Rock Paper Scissors**.'] - The message to show when a player denies an invite for a game.
+   * @param {string} [options.playerOnlyMessage] - The message to show when someone else tries to use the buttons.
+   */
   constructor(options = {}) {
 
     if (!options.isSlashGame) options.isSlashGame = false;

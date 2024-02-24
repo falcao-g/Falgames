@@ -4,6 +4,20 @@ const { createCanvas } = require('canvas');
 
 
 module.exports = class Wordle extends events {
+  /**
+   * Represents a Wordle game.
+   * @constructor
+   * @param {Object} options - The options for the Wordle game.
+   * @param {boolean} [options.isSlashGame=false] - Whether the game is played using slash commands.
+   * @param {Object} options.message - The message object associated with the game.
+   * @param {Object} [options.embed={}] - The embed options for the game.
+   * @param {string} [options.embed.title='Wordle'] - The title of the embed.
+   * @param {string} [options.embed.color='#551476'] - The color of the embed.
+   * @param {string} [options.customWord=null] - A custom word for the game.
+   * @param {number} [options.timeoutTime=60000] - The timeout time for the game.
+   * @param {string} [options.winMessage='You won! The word was **{word}**.'] - The win message.
+   * @param {string} [options.loseMessage='You lost! The word was **{word}**.'] - The lose message.
+  */
   constructor(options = {}) {
 
     if (!options.isSlashGame) options.isSlashGame = false;
@@ -35,7 +49,15 @@ module.exports = class Wordle extends events {
     super();
     this.options = options;
     this.message = options.message;
+    /**
+     * The word for the game.
+     * @type {string}
+     */
     this.word = options.customWord;
+    /**
+     * The guessed words for the game.
+     * @type {string[]}
+    */
     this.guessed = [];
   }
 

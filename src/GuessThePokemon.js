@@ -4,6 +4,21 @@ const { createCanvas, loadImage } = require('canvas');
 
 
 module.exports = class GuessThePokemon extends events {
+  /**
+   * Represents a GuessThePokemon game.
+   * @constructor
+   * @param {Object} options - The options for the GuessThePokemon game.
+   * @param {boolean} [options.isSlashGame=false] - Whether the game is played using slash commands.
+   * @param {Object} options.message - The message object associated with the game.
+   * @param {Object} [options.embed] - The embed options for the game.
+   * @param {string} [options.embed.title='Who\'s The Pokemon'] - The title of the embed.
+   * @param {string} [options.embed.color='#551476'] - The color of the embed.
+   * @param {number} [options.timeoutTime=60000] - The timeout time for the game.
+   * @param {string} [options.winMessage='You guessed it right! It was a {pokemon}.'] - The win message.
+   * @param {string} [options.loseMessage='Better luck next time! It was a {pokemon}.'] - The lose message.
+   * @param {string} [options.errMessage='Unable to fetch pokemon data! Please try again.'] - The error message.
+   * 
+   */
   constructor(options = {}) {
 
     if (!options.isSlashGame) options.isSlashGame = false;
@@ -31,6 +46,16 @@ module.exports = class GuessThePokemon extends events {
     super();
     this.options = options;
     this.message = options.message;
+    /**
+     * @typedef Pokemon
+     * @type {Object}
+     * @property {string} name - The name of the pokemon.
+     * @property {string[]} types - The types of the pokemon.
+     * @property {string[]} abilities - The abilities of the pokemon.
+     * @property {string} answerImage - The image of the pokemon.
+     * @property {Buffer} questionImage - The question image of the pokemon.
+     */
+    /** @type {Pokemon} */
     this.pokemon = {};
   }
   

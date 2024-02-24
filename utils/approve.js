@@ -4,6 +4,28 @@ const events = require('events');
 
 
 module.exports = class Approve extends events {
+  /**
+   * Represents a game request.
+   * @constructor
+   * @param {Object} options - The options for the game request.
+   * @param {Object} options.message - The message object associated with the game request.
+   * @param {Object} options.opponent - The opponent for the game request.
+   * @param {Object} [options.embed={}] - The embed options for the game request.
+   * @param {string} [options.embed.title='Game Request'] - The title of the embed.
+   * @param {string} [options.embed.color='#551476'] - The color of the embed.
+   * @param {string} [options.embed.requestTitle=options.embed.title] - The title of the request embed.
+   * @param {string} [options.embed.requestColor=options.embed.color] - The color of the request embed.
+   * @param {string} [options.embed.rejectTitle=options.embed.title] - The title of the reject embed.
+   * @param {string} [options.embed.rejectColor=options.embed.color] - The color of the reject embed.
+   * @param {Object} [options.buttons={}] - The button options for the game request.
+   * @param {string} [options.buttons.accept='Accept'] - The label for the accept button.
+   * @param {string} [options.buttons.reject='Reject'] - The label for the reject button.
+   * @param {number} [options.reqTimeoutTime=30000] - The time for the request timeout.
+   * @param {boolean} [options.mentionUser=false] - Whether to mention the user in the request message.
+   * @param {string} [options.requestMessage='{player} has invited you for a round of Game.'] - The message to send for the request.
+   * @param {string} [options.rejectMessage='The player denied your request for a round of Game.'] - The message to send for the rejection.
+   * @param {string} [options.reqTimeoutMessage='Dropped the game as the player did not respond.'] - The message to send for the request timeout.
+   */
   constructor(options = {}) {
 
     if (!options.embed) options.embed = {};

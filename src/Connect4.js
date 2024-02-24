@@ -4,6 +4,31 @@ const approve = require('../utils/approve');
 
 
 module.exports = class Connect4 extends approve {
+  /**
+   * Represents a Connect4 game.
+   * @constructor
+   * @param {Object} options - The options for the Connect4 game.
+   * @param {boolean} [options.isSlashGame=false] - Whether the game is played using slash commands.
+   * @param {Object} options.message - The message object associated with the game.
+   * @param {Object} options.opponent - The opponent object for the game.
+   * @param {Object} [options.embed={}] - The embed options for the game.
+   * @param {string} [options.embed.title='Connect4 Game'] - The title of the embed.
+   * @param {string} [options.embed.statusTitle='Status'] - The title of the status field in the embed.
+   * @param {string} [options.embed.color='#551476'] - The color of the embed.
+   * @param {Object} [options.emojis={}] - The emojis for the game.
+   * @param {string} [options.emojis.board='⚪'] - The emoji for the game board.
+   * @param {string} [options.emojis.player1='🔴'] - The emoji for player 1.
+   * @param {string} [options.emojis.player2='🟡'] - The emoji for player 2.
+   * @param {number} [options.timeoutTime=60000] - The timeout time for the game.
+   * @param {string} [options.buttonStyle='PRIMARY'] - The style of the buttons.
+   * @param {string} [options.turnMessage='{emoji} | Its turn of player **{player}**.'] - The message displayed when it's a player's turn.
+   * @param {string} [options.winMessage='{emoji} | **{player}** won the Connect4 Game.'] - The message displayed when a player wins the game.
+   * @param {string} [options.tieMessage='The Game tied! No one won the Game!'] - The message displayed when the game ends in a tie.
+   * @param {string} [options.timeoutMessage='The Game went unfinished! No one won the Game!'] - The message displayed when the game times out.
+   * @param {string} [options.requestMessage='{player} has invited you for a round of **Connect4**.'] - The message displayed when a player invites another player for a game.
+   * @param {string} [options.rejectMessage='The player denied your request for a round of **Connect4**.'] - The message displayed when a player rejects an invitation for a game.
+   * @param {string} [options.playerOnlyMessage='Only {player} and {opponent} can use these buttons.'] - The message to show when someone else tries to use the buttons.
+   */
   constructor(options = {}) {
 
     if (!options.isSlashGame) options.isSlashGame = false;

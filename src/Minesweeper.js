@@ -4,6 +4,25 @@ const events = require('events');
 
 
 module.exports = class Minesweeper extends events {
+  /**
+   * Represents a Minesweeper game.
+   * @constructor
+   * @param {Object} options - The options for the Minesweeper game.
+   * @param {boolean} [options.isSlashGame=false] - Whether the game is played using slash commands.
+   * @param {Object} options.message - The message object associated with the game.
+   * @param {Object} [options.embed] - The embed options for the game.
+   * @param {string} [options.embed.title='Minesweeper'] - The title of the embed.
+   * @param {string} [options.embed.color='#551476'] - The color of the embed.
+   * @param {string} [options.embed.description='Click on the buttons to reveal the blocks except mines.'] - The description of the embed.
+   * @param {Object} [options.emojis] - The emojis for the game.
+   * @param {string} [options.emojis.flag='🚩'] - The flag emoji.
+   * @param {string} [options.emojis.mine='💣'] - The mine emoji.
+   * @param {number} [options.mines=5] - The number of mines to plant.
+   * @param {number} [options.timeoutTime=60000] - The timeout time for the game.
+   * @param {string} [options.winMessage='You won the Game! You successfully avoided all the mines.'] - The win message.
+   * @param {string} [options.loseMessage='You lost the Game! Beaware of the mines next time.'] - The lose message.
+   * @param {string} [options.playerOnlyMessage='Only {player} can use these buttons.'] - The message to show when someone else tries to use the buttons.
+   */
   constructor(options = {}) {
 
     if (!options.isSlashGame) options.isSlashGame = false;

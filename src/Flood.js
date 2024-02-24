@@ -5,6 +5,23 @@ const events = require('events');
 
 
 module.exports = class Flood extends events {
+  /**
+   * Represents a Flood game.
+   * @constructor
+   * @param {Object} options - The options for the Flood game.
+   * @param {boolean} [options.isSlashGame=false] - Whether the game is played using slash commands.
+   * @param {Object} options.message - The message object associated with the game.
+   * @param {Object} [options.embed] - The embed options for the game.
+   * @param {string} [options.embed.title='Flood'] - The title of the embed.
+   * @param {string} [options.embed.color='#551476'] - The color of the embed.
+   * @param {number} [options.difficulty=13] - The difficulty level of the game.
+   * @param {number} [options.timeoutTime=60000] - The timeout time for the game.
+   * @param {string} [options.buttonStyle='PRIMARY'] - The style of the buttons.
+   * @param {string} [options.winMessage='You won! You took **{turns}** turns.'] - The win message.
+   * @param {string} [options.loseMessage='You lost! You took **{turns}** turns.'] - The lose message.
+   * @param {string[]} [options.emojis] - The emojis to use for the game.
+   * @param {string} [options.playerOnlyMessage='Only {player} can use these buttons.'] - The message to show when someone else tries to use the buttons.
+   */
   constructor(options = {}) {
 
     if (!options.isSlashGame) options.isSlashGame = false;
