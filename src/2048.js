@@ -1,8 +1,7 @@
 const { EmbedBuilder, ActionRowBuilder, AttachmentBuilder } = require("discord.js")
 const { disableButtons, formatMessage, move, oppDirection, ButtonBuilder } = require("../utils/utils")
 const events = require("events")
-const { createCanvas, loadImage } = require("canvas")
-const path = require("path")
+const { createCanvas } = require("canvas")
 
 module.exports = class TwoZeroFourEight extends events {
 	constructor(options = {}) {
