@@ -1,20 +1,32 @@
-# **FALGAMES**
+<h1 align="center"> FALGAMES </h1>
 
-> **Falgames is a powerful npm package with a collection of minigames for your discord bot :)**
+> **Falgames is a helpful package to enhance your discord bot with fun and interactive minigames :)**
+
+<p align="center">
+    <a href="https://www.npmjs.com/package/falgames"><img src="https://img.shields.io/npm/v/falgames.svg?maxAge=3600" alt="npm version" /></a>
+		<a href="https://www.npmjs.com/package/falgames"><img src="https://img.shields.io/npm/dt/falgames.svg?maxAge=3600" alt="npm downloads" /></a>
+    <a title="Support server" href="https://discord.gg/8WrAtVYVKR">
+        <img src="https://img.shields.io/discord/742332099788275732.svg?&logo=discord&logoColor=ffffff&color=7389D8&labelColor=6A7EC2&label=Support" alt="Support server">
+    </a>
+        <a title="Stars" href="https://github.com/falcao-g/falbot">
+        <img src="https://img.shields.io/github/stars/falcao-g/Falgames" alt="Stars">
+    </a>
+</p>
+
+## **✨ Why Falgames?**
+
+- Easy to use & beginner friendly.
+- Supports both message and slash commands.
+- Customizable to fit your bot's style.
+- 18 different minigames to choose from.
 
 ## **⚙️ Installation**
 
+Please note that Node v18+ and Discord.js v14+ is required.
+
 ```bash
-npm i falgames@latest
+npm i falgames
 ```
-Please note that Node v18+ is required.
-
-## **✨ Features**
-
-- Easy to use.
-- Beginner friendly.
-- Slash Commands Games.
-- Supports Discord.js v14+
 
 ## **📚 Usage**
 
