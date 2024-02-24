@@ -49,7 +49,15 @@ module.exports = class Wordle extends events {
     super();
     this.options = options;
     this.message = options.message;
+    /**
+     * The word for the game.
+     * @type {string}
+     */
     this.word = options.customWord;
+    /**
+     * The guessed words for the game.
+     * @type {string[]}
+    */
     this.guessed = [];
   }
 

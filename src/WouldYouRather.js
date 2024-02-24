@@ -54,6 +54,16 @@ module.exports = class WouldYouRather extends events {
     super();
     this.options = options;
     this.message = options.message;
+    /**
+     * @typedef Data
+     * @type {Object}
+     * @property {number} id - The id of the question.
+     * @property {string} option1 - The first option of the question.
+     * @property {string} option2 - The second option of the question.
+     * @property {number} option1Votes - The votes for the first option.
+     * @property {number} option2Votes - The votes for the second option.
+     */
+    /** @type {Data} */
     this.data = null;
   }
 

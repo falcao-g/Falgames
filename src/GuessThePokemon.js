@@ -46,6 +46,16 @@ module.exports = class GuessThePokemon extends events {
     super();
     this.options = options;
     this.message = options.message;
+    /**
+     * @typedef Pokemon
+     * @type {Object}
+     * @property {string} name - The name of the pokemon.
+     * @property {string[]} types - The types of the pokemon.
+     * @property {string[]} abilities - The abilities of the pokemon.
+     * @property {string} answerImage - The image of the pokemon.
+     * @property {Buffer} questionImage - The question image of the pokemon.
+     */
+    /** @type {Pokemon} */
     this.pokemon = {};
   }
   

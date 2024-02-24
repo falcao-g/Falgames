@@ -74,6 +74,16 @@ module.exports = class Trivia extends events {
     this.options = options;
     this.message = options.message;
     this.selected = null;
+    /**
+     * @typedef Trivia
+     * @type {Object}
+     * @property {string} question - The question of the trivia.
+     * @property {string} difficulty - The difficulty of the trivia.
+     * @property {string} category - The category of the trivia.
+     * @property {string} answer - The answer of the trivia.
+     * @property {string[]} options - The options of the trivia.
+     */
+    /** @type {Trivia} */
     this.trivia = {};
   }
 
