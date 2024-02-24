@@ -1,8 +1,7 @@
 const { EmbedBuilder, ActionRowBuilder, AttachmentBuilder } = require("discord.js")
 const { disableButtons, formatMessage, move, oppDirection, ButtonBuilder } = require("../utils/utils")
 const events = require("events")
-const { createCanvas, loadImage } = require("canvas")
-const path = require("path")
+const { createCanvas } = require("canvas")
 
 module.exports = class TwoZeroFourEight extends events {
 	constructor(options = {}) {
@@ -63,41 +62,52 @@ module.exports = class TwoZeroFourEight extends events {
 		else return await this.message.channel.send(content)
 	}
 
-	async getBoardImage() {
+	getBoardImage() {
+		const squareSize = 90
+		const gap = 7
+
 		const canvas = createCanvas(this.length * 100, this.length * 100)
 		const ctx = canvas.getContext("2d")
-		const imageFilenames = [
-			"0.png",
-			"2.png",
-			"4.png",
-			"8.png",
-			"16.png",
-			"32.png",
-			"64.png",
-			"128.png",
-			"256.png",
-			"512.png",
-			"1024.png",
-			"2048.png",
-		]
-
-		const images = {}
-		for (let i = 0; i < imageFilenames.length; i++) {
-			const imagePath = path.join(__dirname, "..", "images", imageFilenames[i])
-			images[i] = await loadImage(imagePath).catch((err) => {
-				console.error(`Error loading image: ${imagePath}`)
-				throw err
-			})
-		}
 
 		for (let y = 0; y < this.length; y++) {
 			for (let x = 0; x < this.length; x++) {
-				const tileValue = this.gameBoard[y * this.length + x]
-				const tileImage = images[tileValue]
+				const exponent = this.gameBoard[y * this.length + x]
+				const tileValue = 2 ** exponent == 1 ? 0 : 2 ** exponent
 
-				if (tileImage) {
-					ctx.drawImage(tileImage, x * 100, y * 100, 100, 100)
+				// Draw the background
+				ctx.fillStyle = "#BCACA1"
+				ctx.fillRect(x * (squareSize + gap), y * (squareSize + gap), squareSize + gap * 2, squareSize + gap * 2)
+
+				// Values for the tiles
+				const tiles = {
+					2048: { fillStyle: "#ECC140", font: "40px clear-sans", fontColor: "#FFFFFF" },
+					1024: { fillStyle: "#ECC140", font: "40px clear-sans", fontColor: "#FFFFFF" },
+					512: { fillStyle: "#ECC75B", font: "55px clear-sans", fontColor: "#FFFFFF" },
+					256: { fillStyle: "#EDCB6A", font: "55px clear-sans", fontColor: "#FFFFFF" },
+					128: { fillStyle: "#ECCE78", font: "55px clear-sans", fontColor: "#FFFFFF" },
+					64: { fillStyle: "#F35E43", font: "70px clear-sans", fontColor: "#FFFFFF" },
+					32: { fillStyle: "#F57B63", font: "70px clear-sans", fontColor: "#FFFFFF" },
+					16: { fillStyle: "#F39568", font: "70px clear-sans", fontColor: "#FAF6F2" },
+					8: { fillStyle: "#F1B17D", font: "75px clear-sans", fontColor: "#FAF6F2" },
+					4: { fillStyle: "#EDDFC9", font: "75px clear-sans", fontColor: "#827A6F" },
+					2: { fillStyle: "#EEE4DB", font: "75px clear-sans", fontColor: "#776E65" },
+					0: { fillStyle: "#CDC1B5", font: "75px clear-sans" },
 				}
+
+				// Draw the squares
+				ctx.fillStyle = tiles[tileValue].fillStyle
+				ctx.font = tiles[tileValue].font
+				ctx.fillRect(x * (squareSize + gap) + gap, y * (squareSize + gap) + gap, squareSize, squareSize)
+
+				// Draw the letters
+				ctx.fillStyle = tiles[tileValue].fontColor
+				ctx.textAlign = "center"
+				ctx.textBaseline = "middle"
+				ctx.fillText(
+					tileValue !== 0 ? tileValue : "",
+					x * (squareSize + gap) + (tileValue === 16 ? gap / 2 : gap) + squareSize / 2,
+					y * (squareSize + gap) + gap * 2 + squareSize / 2
+				)
 			}
 		}
 
