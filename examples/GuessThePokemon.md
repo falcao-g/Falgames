@@ -14,7 +14,9 @@ const Game = new GuessThePokemon({
   winMessage: 'You guessed it right! It was a {pokemon}.',
   loseMessage: 'Better luck next time! It was a {pokemon}.',
   errMessage: 'Unable to fetch pokemon data! Please try again.',
-  playerOnlyMessage: 'Only {player} can use these buttons.'
+  playerOnlyMessage: 'Only {player} can use these buttons.',
+  typesText: "Types",
+  abilitiesText: "Abilities",
 });
 
 Game.startGame();
