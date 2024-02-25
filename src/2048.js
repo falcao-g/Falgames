@@ -22,6 +22,8 @@ module.exports = class TwoZeroFourEight extends events {
 	 * @param {string} [options.stopButton="Stop"] - The label for the stop button.
 	 * @param {string} [options.buttonStyle="PRIMARY"] - The style of the buttons.
 	 * @param {string} [options.playerOnlyMessage="Only {player} can use these buttons."] - The message shown when someone else tries to use the buttons.
+	 * @param {string} [options.scoreText="Current Score"] - The text for the current score.
+	 * @param {string} [options.totalScoreText="Total Score"] - The text for the total score.
 	 */
 	constructor(options = {}) {
 		if (!options.isSlashGame) options.isSlashGame = false
@@ -44,6 +46,9 @@ module.exports = class TwoZeroFourEight extends events {
 		if (!options.stopButton) options.stopButton = "Stop"
 		if (!options.buttonStyle) options.buttonStyle = "PRIMARY"
 
+		if (!options.scoreText) options.scoreText = "Current Score"
+		if (!options.totalScoreText) options.totalScoreText = "Total Score"
+
 		if (typeof options.embed !== "object") throw new TypeError("INVALID_EMBED: embed option must be an object.")
 		if (typeof options.embed.title !== "string") throw new TypeError("INVALID_EMBED: embed title must be a string.")
 		if (typeof options.emojis !== "object") throw new TypeError("INVALID_EMOJIS: emojis option must be an object.")
@@ -51,6 +56,9 @@ module.exports = class TwoZeroFourEight extends events {
 		if (typeof options.emojis.down !== "string") throw new TypeError("INVALID_EMOJIS: down emoji must be an string.")
 		if (typeof options.emojis.left !== "string") throw new TypeError("INVALID_EMOJIS: left emoji must be an string.")
 		if (typeof options.emojis.right !== "string") throw new TypeError("INVALID_EMOJIS: right emoji must be an string.")
+		if (typeof options.scoreText !== "string") throw new TypeError("INVALID_TEXT: scoreText option must be a string.")
+		if (typeof options.totalScoreText !== "string")
+			throw new TypeError("INVALID_TEXT: totalScoreText option must be a string.")
 		if (typeof options.timeoutTime !== "number")
 			throw new TypeError("INVALID_TIME: Timeout time option must be a number.")
 		if (typeof options.buttonStyle !== "string")
@@ -147,7 +155,7 @@ module.exports = class TwoZeroFourEight extends events {
 			.setTitle(this.options.embed.title)
 			.setColor(this.options.embed.color)
 			.setImage("attachment://gameboard.png")
-			.addFields({ name: "Current Score", value: this.score.toString() })
+			.addFields({ name: this.options.scoreText, value: this.score.toString() })
 			.setFooter({ text: this.message.author.tag, iconURL: this.message.author.displayAvatarURL({ dynamic: true }) })
 
 		const up = new ButtonBuilder()
@@ -234,7 +242,7 @@ module.exports = class TwoZeroFourEight extends events {
 			.setTitle(this.options.embed.title)
 			.setColor(this.options.embed.color)
 			.setImage("attachment://gameboard.png")
-			.addFields({ name: "Total Score", value: this.score.toString() })
+			.addFields({ name: this.options.totalScoreText, value: this.score.toString() })
 			.setFooter({ text: this.message.author.tag, iconURL: this.message.author.displayAvatarURL({ dynamic: true }) })
 
 		return msg.edit({

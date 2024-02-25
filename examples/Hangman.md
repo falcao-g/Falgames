@@ -11,7 +11,7 @@ const Game = new Hangman({
     color: '#551476'
   },
   hangman: { hat: '🎩', head: '😟', shirt: '👕', pants: '🩳', boots: '👞👞' },
-  customWord: 'Gamecord',
+  customWord: 'Falgames',
   timeoutTime: 60000,
   theme: 'nature',
   winMessage: 'You won! The word was **{word}**.',

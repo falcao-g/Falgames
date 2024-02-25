@@ -17,6 +17,8 @@ module.exports = class GuessThePokemon extends events {
    * @param {string} [options.winMessage='You guessed it right! It was a {pokemon}.'] - The win message.
    * @param {string} [options.loseMessage='Better luck next time! It was a {pokemon}.'] - The lose message.
    * @param {string} [options.errMessage='Unable to fetch pokemon data! Please try again.'] - The error message.
+   * @param {string} [options.typesText='Types'] - The types text for the embed.
+   * @param {string} [options.abilitiesText='Abilities'] - The abilities text for the embed.
    * 
    */
   constructor(options = {}) {
@@ -35,13 +37,16 @@ module.exports = class GuessThePokemon extends events {
     if (!options.winMessage) options.winMessage = 'You guessed it right! It was a {pokemon}.';
     if (!options.loseMessage) options.loseMessage = 'Better luck next time! It was a {pokemon}.';
     if (!options.errMessage) options.errMessage = 'Unable to fetch pokemon data! Please try again.';
-
+    if (!options.typesText) options.typesText = 'Types';
+    if (!options.abilitiesText) options.abilitiesText = 'Abilities';
 
     if (typeof options.embed !== 'object') throw new TypeError('INVALID_EMBED: embed option must be an object.');
     if (typeof options.embed.title !== 'string') throw new TypeError('INVALID_EMBED: embed title must be a string.');
     if (typeof options.timeoutTime !== 'number') throw new TypeError('INVALID_TIME: Timeout time option must be a number.');
     if (typeof options.winMessage !== 'string') throw new TypeError('INVALID_MESSAGE: Win Message option must be a string.');
     if (typeof options.loseMessage !== 'string') throw new TypeError('INVALID_MESSAGE: Lose Message option must be a string.');
+    if (typeof options.typesText !== 'string') throw new TypeError('INVALID_MESSAGE: Types Text option must be a string.');
+    if (typeof options.abilitiesText !== 'string') throw new TypeError('INVALID_MESSAGE: Abilities Text option must be a string.');
 
     super();
     this.options = options;
@@ -86,8 +91,8 @@ module.exports = class GuessThePokemon extends events {
     .setColor(this.options.embed.color)
     .setTitle(this.options.embed.title)
     .setImage('attachment://question-image.png')
-    .addFields({ name: 'Types', value: this.pokemon.types.join(', ') ?? 'No Data', inline: true })
-    .addFields({ name: 'Abilities', value: this.pokemon.abilities.join(', ') ?? 'No Data', inline: true })
+    .addFields({ name: this.options.typesText, value: this.pokemon.types.join(', ') ?? 'No Data', inline: true })
+    .addFields({ name: this.options.abilitiesText, value: this.pokemon.abilities.join(', ') ?? 'No Data', inline: true })
     .setAuthor({ name: this.message.author.tag, iconURL: this.message.author.displayAvatarURL({ dynamic: true }) });
 
 
