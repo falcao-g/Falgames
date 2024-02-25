@@ -59,7 +59,7 @@ module.exports = class SnakeGame extends events {
 		if (!options.emojis.left) options.emojis.left = "⬅️"
 		if (!options.emojis.right) options.emojis.right = "➡️"
 
-		if (!options.foods) options.foods = []
+		if (!options.foods) options.foods = ['🍎']
 		if (!options.stopButton) options.stopButton = "Stop"
 		if (!options.timeoutTime) options.timeoutTime = 60000
 
