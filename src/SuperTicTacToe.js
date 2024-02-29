@@ -89,12 +89,12 @@ module.exports = class SuperTicTacToe extends approve {
     this.message = options.message;
     this.opponent = options.opponent;
     this.gameBoard = [0, 0, 0, 0, 0, 0, 0, 0, 0];
-    this.miniGameBoard = this.createMiniGameBoard();
+    this.miniGameBoard = this.createMiniGameBoards();
     this.selectedGameBoard = -1;
     this.player1Turn = true;
   }
 
-  createMiniGameBoard() {
+  createMiniGameBoards() {
     const gameBoard = [];
     for (let i = 0; i < 9; i++) gameBoard.push(
         [0, 0, 0, 0, 0, 0, 0, 0, 0]
@@ -184,21 +184,24 @@ module.exports = class SuperTicTacToe extends approve {
   }
 
   renderGameBoard(embed) {
-    for (let x = 0; x < 3; x++) {
-      for (let y = 0; y < 3; y++) {
-        const gameBoard = this.miniGameBoard[y * 3 + x];
+    this.matrixLoop((x, y) => {
+      const gameBoard = this.miniGameBoard[y * 3 + x];
         let gameBoardStr = '';
-        for (let xx = 0; xx < 3; xx++) {
-          for (let yy = 0; yy < 3; yy++) {
-            gameBoardStr += this.getButton( gameBoard[yy * 3 + xx]).emoji;
-          }
-          gameBoardStr += '\n';
-        }
+        this.matrixLoop((xx, yy) => {
+          gameBoardStr += this.getButton( gameBoard[yy * 3 + xx]).emoji;
+        }, () => gameBoardStr += '\n');
         embed.addFields({ name: `${y * 3 + x} ${this.getButton(this.gameBoard[y * 3 + x]).emoji}`, value: gameBoardStr, inline: true});
-      }
-    }
+    })
   }
 
+  matrixLoop(fn, xFn) {
+    for (let x = 0; x < 3; x++) {
+      for (let y = 0; y < 3; y++) {
+        fn(x, y);
+      }
+      xFn?.(x);
+    }
+  }
 
   async gameOver(msg, result) {
     const TicTacToeGame = { player: this.message.author, opponent: this.opponent, gameBoard: this.gameBoard };
@@ -223,43 +226,30 @@ module.exports = class SuperTicTacToe extends approve {
 
 
   hasWonGame(player) {
-    if (this.gameBoard[0] === this.gameBoard[4] && this.gameBoard[0] === this.gameBoard[8] && this.gameBoard[0] === player) {
-      return true;
-    } else if (this.gameBoard[6] === this.gameBoard[4] && this.gameBoard[6] === this.gameBoard[2] && this.gameBoard[6] === player) {
-      return true;
-    }
-    for (let i = 0; i < 3; ++i) {
-      if (this.gameBoard[i*3] === this.gameBoard[i*3+1] && this.gameBoard[i*3] === this.gameBoard[i*3+2] && this.gameBoard[i*3] === player) {
-        return true;
-      }
-      if (this.gameBoard[i] === this.gameBoard[i+3] && this.gameBoard[i] === this.gameBoard[i+6] && this.gameBoard[i] === player) {
-        return true;
-      }
-    }
-    return false;
+    return this.checkBoard(player, this.gameBoard, () => true);
   }
 
   hasWonBoard(player) {
     if (this.selectedGameBoard === -1) return;
-    if (this.miniGameBoard[this.selectedGameBoard][0] === this.miniGameBoard[this.selectedGameBoard][4] && this.miniGameBoard[this.selectedGameBoard][0] === this.miniGameBoard[this.selectedGameBoard][8] && this.miniGameBoard[this.selectedGameBoard][0] === player) {
-      this.gameBoard[this.selectedGameBoard] = player;
-      return;
-    } else if (this.miniGameBoard[this.selectedGameBoard][6] === this.miniGameBoard[this.selectedGameBoard][4] && this.miniGameBoard[this.selectedGameBoard][6] === this.miniGameBoard[this.selectedGameBoard][2] && this.miniGameBoard[this.selectedGameBoard][6] === player) {
-      this.gameBoard[this.selectedGameBoard] = player;
-      return;
-    }
-    for (let i = 0; i < 3; ++i) {
-      if (this.miniGameBoard[this.selectedGameBoard][i*3] === this.miniGameBoard[this.selectedGameBoard][i*3+1] && this.miniGameBoard[this.selectedGameBoard][i*3] === this.miniGameBoard[this.selectedGameBoard][i*3+2] && this.miniGameBoard[this.selectedGameBoard][i*3] === player) {
-        this.gameBoard[this.selectedGameBoard] = player;
-        return;
-      }
-      if (this.miniGameBoard[this.selectedGameBoard][i] === this.miniGameBoard[this.selectedGameBoard][i+3] && this.miniGameBoard[this.selectedGameBoard][i] === this.miniGameBoard[this.selectedGameBoard][i+6] && this.miniGameBoard[this.selectedGameBoard][i] === player) {
-        this.gameBoard[this.selectedGameBoard] = player;
-        return;
-      }
-    }
+    this.checkBoard(player, this.miniGameBoard[this.selectedGameBoard], () => this.gameBoard[this.selectedGameBoard] = player);
   }
 
+  checkBoard(player, board, fn) {
+    if (board[0] === board[4] && board[0] === board[8] && board[0] === player) {
+      return fn();
+    } else if (board[6] === board[4] && board[6] === board[2] && board[6] === player) {
+      return fn();
+    }
+    for (let i = 0; i < 3; ++i) {
+      if (board[i*3] === board[i*3+1] && board[i*3] === board[i*3+2] && board[i*3] === player) {
+        return fn();
+      }
+      if (board[i] === board[i+3] && board[i] === board[i+6] && board[i] === player) {
+        return fn();
+      }
+    }
+    return false;
+  }
 
   getPlayerEmoji() {
     return this.player1Turn ? this.options.emojis.xButton : this.options.emojis.oButton;
