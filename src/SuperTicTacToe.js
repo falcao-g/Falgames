@@ -127,7 +127,8 @@ module.exports = class SuperTicTacToe extends approve {
     .setColor(this.options.embed.color)
     .setTitle(this.options.embed.title)
     .setFooter({ text: this.message.author.tag + ' vs ' + this.opponent.tag })
-    .addFields({ name: this.options.embed.statusTitle, value: this.getTurnMessage() }) 
+    .addFields({ name: this.options.embed.statusTitle, value: this.getTurnMessage() })
+    .addFields({ name: 'Game board nº', value: this.selectedGameBoard === -1 ? 'Select a game board' : this.selectedGameBoard})
 
     this.renderGameBoard(embed);
 
@@ -170,7 +171,7 @@ module.exports = class SuperTicTacToe extends approve {
       .setTitle(this.options.embed.title)
       .setFooter({ text: this.message.author.tag + ' vs ' + this.opponent.tag })
       .addFields({ name: this.options.embed.statusTitle, value: this.getTurnMessage() })
-      .addFields({ name: 'Game board nº', value: this.selectedGameBoard === -1 ? 'Super' : this.selectedGameBoard})  
+      .addFields({ name: 'Game board nº', value: this.selectedGameBoard === -1 ? 'Select a game board' : this.selectedGameBoard})  
       
       this.renderGameBoard(embed);
 
