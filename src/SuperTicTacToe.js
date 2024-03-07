@@ -1,6 +1,7 @@
-const { EmbedBuilder, ActionRowBuilder } = require('discord.js');
+const { EmbedBuilder, ActionRowBuilder, AttachmentBuilder } = require('discord.js');
 const { disableButtons, formatMessage, ButtonBuilder } = require('../utils/utils');
 const approve = require('../utils/approve');
+const { createCanvas } = require("canvas")
 
 
 module.exports = class SuperTicTacToe extends approve {
@@ -169,19 +170,49 @@ module.exports = class SuperTicTacToe extends approve {
       const embed = new EmbedBuilder()
       .setColor(this.options.embed.color)
       .setTitle(this.options.embed.title)
+      .setImage("attachment://gameboard.png")
       .setFooter({ text: this.message.author.tag + ' vs ' + this.opponent.tag })
       .addFields({ name: this.options.embed.statusTitle, value: this.getTurnMessage() })
       .addFields({ name: 'Game board nº', value: this.selectedGameBoard === -1 ? 'Select a game board' : this.selectedGameBoard})  
       
       this.renderGameBoard(embed);
+      const attachment = new AttachmentBuilder(this.renderGameBoardCanvas(), { name: 'gameboard.png' });
 
-      return await msg.edit({ embeds: [embed], components: this.getComponents() });
+      return await msg.edit({ embeds: [embed], components: this.getComponents(), files: [attachment] });
     })
 
 
     collector.on('end', async (_, reason) => {
       if (reason === 'idle') return this.gameOver(msg, 'timeout');
     })
+  }
+
+  renderGameBoardCanvas(width = 300, height = 300) {
+    const gap = 20;
+    const canvas = createCanvas(width, height);
+    const ctx = canvas.getContext('2d');
+    ctx.fillStyle = '#ffffff';
+    ctx.fillRect(0, 0, width, height);
+    ctx.fillStyle = '#000000';
+    ctx.lineWidth = 2;
+    
+    ctx.scale(0.3, 0.3);
+    ctx.translate(-width, 0);
+    this.matrixLoop((x, y) => {
+      ctx.translate(width + gap, 0);
+      ctx.moveTo(width / 3, 0);
+      ctx.lineTo(width / 3, height);
+      ctx.moveTo((width / 3) * 2, 0);
+      ctx.lineTo((width / 3) * 2, height);
+      ctx.moveTo(0, height / 3);
+      ctx.lineTo(width, height / 3);
+      ctx.moveTo(0, (height / 3) * 2);
+      ctx.lineTo(width, (height / 3) * 2);
+      ctx.stroke();
+    }, () => ctx.translate(-width * 3 - (gap * 3), height + gap));
+
+
+    return canvas.toBuffer();
   }
 
   renderGameBoard(embed) {
@@ -191,7 +222,7 @@ module.exports = class SuperTicTacToe extends approve {
         this.matrixLoop((xx, yy) => {
           gameBoardStr += this.getButton( gameBoard[yy * 3 + xx]).emoji;
         }, () => gameBoardStr += '\n');
-        embed.addFields({ name: `${y * 3 + x} ${this.getButton(this.gameBoard[y * 3 + x]).emoji}`, value: gameBoardStr, inline: true});
+        embed.addFields({ name: `${y * 3 + x} ${this.getButton(this.gameBoard[y * 3 + x]).emoji}`, value: gameBoardStr, inline: true})
     })
   }
 
