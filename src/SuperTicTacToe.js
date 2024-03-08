@@ -21,6 +21,7 @@ module.exports = class SuperTicTacToe extends approve {
    * @param {string} [options.emojis.xButton='❌'] - The emoji for the X button.
    * @param {string} [options.emojis.oButton='🔵'] - The emoji for the O button.
    * @param {string} [options.emojis.blankButton='➖'] - The emoji for the blank button.
+   * @param {boolean} [options.disablecanvas=false] - Whether to disable the canvas rendering.
    * @param {number} [options.timeoutTime=60000] - The timeout time for the game.
    * @param {string} [options.xButtonStyle='DANGER'] - The style for the X button.
    * @param {string} [options.oButtonStyle='PRIMARY'] - The style for the O button.
@@ -28,8 +29,8 @@ module.exports = class SuperTicTacToe extends approve {
    * @param {string} [options.winMessage='{emoji} | **{player}** won the SuperTicTacToe Game.'] - The win message for the game.
    * @param {string} [options.tieMessage='The Game tied! No one won the Game!'] - The tie message for the game.
    * @param {string} [options.timeoutMessage='The Game went unfinished! No one won the Game!'] - The timeout message for the game.
-   * @param {string} [options.requestMessage='{player} has invited you for a round of **Tic Tac Toe**.'] - The request message for the game.
-   * @param {string} [options.rejectMessage='The player denied your request for a round of **Tic Tac Toe**.'] - The reject message for the game.
+   * @param {string} [options.requestMessage='{player} has invited you for a round of **Super Tic Tac Toe**.'] - The request message for the game.
+   * @param {string} [options.rejectMessage='The player denied your request for a round of **Super Tic Tac Toe**.'] - The reject message for the game.
    * @param {string} [options.playerOnlyMessage='Only {player} and {opponent} can use these buttons.'] - The message to show when someone else tries to use the buttons.
   */
   constructor(options = {}) {
@@ -52,6 +53,7 @@ module.exports = class SuperTicTacToe extends approve {
     if (!options.emojis.xButton) options.emojis.xButton = '❌';
     if (!options.emojis.oButton) options.emojis.oButton = '🔵';
     if (!options.emojis.blankButton) options.emojis.blankButton = '➖';
+    if (!options.disablecanvas) options.disablecanvas = false;
 
     if (!options.timeoutTime) options.timeoutTime = 60000;
     if (!options.xButtonStyle) options.xButtonStyle = 'DANGER';
@@ -60,8 +62,8 @@ module.exports = class SuperTicTacToe extends approve {
     if (!options.winMessage) options.winMessage = '{emoji} | **{player}** won the SuperTicTacToe Game.';
     if (!options.tieMessage) options.tieMessage = 'The Game tied! No one won the Game!';
     if (!options.timeoutMessage) options.timeoutMessage = 'The Game went unfinished! No one won the Game!';
-    if (!options.requestMessage) options.requestMessage = '{player} has invited you for a round of **Tic Tac Toe**.';
-    if (!options.rejectMessage) options.rejectMessage = 'The player denied your request for a round of **Tic Tac Toe**.';
+    if (!options.requestMessage) options.requestMessage = '{player} has invited you for a round of **Super Tic Tac Toe**.';
+    if (!options.rejectMessage) options.rejectMessage = 'The player denied your request for a round of **Super Tic Tac Toe**.';
 
 
     if (typeof options.embed !== 'object') throw new TypeError('INVALID_EMBED: embed option must be an object.');
@@ -71,6 +73,7 @@ module.exports = class SuperTicTacToe extends approve {
     if (typeof options.emojis !== 'object') throw new TypeError('INVALID_EMOJIS: emojis option must be an object.');
     if (typeof options.emojis.xButton !== 'string') throw new TypeError('INVALID_EMOJIS: xButton emoji must be a string.');
     if (typeof options.emojis.oButton !== 'string') throw new TypeError('INVALID_EMOJIS: oButton emoji must be a string.');
+    if (typeof options.disablecanvas !== 'boolean') throw new TypeError('INVALID_DISABLECANVAS: disablecanvas option must be a boolean.');
     if (typeof options.emojis.blankButton !== 'string') throw new TypeError('INVALID_EMOJIS: blankButton emoji must be a string.');
     if (typeof options.xButtonStyle !== 'string') throw new TypeError('INVALID_BUTTON_STYLE: xbutton style must be a string.');
     if (typeof options.oButtonStyle !== 'string') throw new TypeError('INVALID_BUTTON_STYLE: obutton style must be a string.');
@@ -93,7 +96,17 @@ module.exports = class SuperTicTacToe extends approve {
     this.miniGameBoard = this.createMiniGameBoards();
     this.selectedGameBoard = -1;
     this.player1Turn = true;
-    this.baseCanvas = this.renderBaseCanvas();
+    this.selectionsCanvas = null;
+    this.canvasOptions = {
+      width: 512,
+      height: 512,
+      gap: 10,
+      xButton: '❌',
+      oButton: '⭕',
+      xColor: 'rgb(255, 0, 0)',
+      oColor: 'rgb(0, 0, 255)',
+    }
+    this.baseCanvas = this.renderBaseCanvas(this.canvasOptions.width, this.canvasOptions.height);
   }
 
   createMiniGameBoards() {
@@ -130,12 +143,23 @@ module.exports = class SuperTicTacToe extends approve {
     .setTitle(this.options.embed.title)
     .setFooter({ text: this.message.author.tag + ' vs ' + this.opponent.tag })
     .addFields({ name: this.options.embed.statusTitle, value: this.getTurnMessage() })
-    .addFields({ name: 'Game board nº', value: this.selectedGameBoard === -1 ? 'Select a game board' : this.selectedGameBoard})
 
-    this.renderEmbedGameBoard(embed);
-
-    await msg.edit({ content: null, embeds: [embed], components: this.getComponents() });
     this.handleButtons(msg);
+
+    let attachment = null;
+    if (this.options.disablecanvas) {
+      embed.addFields({ name: 'Game board nº', value: this.selectedGameBoard === -1 ? 'Select a game board' : this.selectedGameBoard});
+      this.renderEmbedGameBoard(embed);
+
+      await msg.edit({ embeds: [embed], components: this.getComponents() });
+    } else {
+      embed.setImage("attachment://gameboard.png")
+      attachment = new AttachmentBuilder(this.renderCanvas(), { name: 'gameboard.png' });
+      
+      await msg.edit({ content: null, embeds: [embed], components: this.getComponents(), files: [attachment]});
+    }
+
+    
   }
 
   handleButtons(msg) {
@@ -155,6 +179,8 @@ module.exports = class SuperTicTacToe extends approve {
       } else {
           this.miniGameBoard[this.selectedGameBoard][btn.customId.split('_')[1]] = (this.player1Turn ? 1 : 2);
 
+          this.renderSelectionsCanvas(btn.customId.split('_')[1]);
+
           this.hasWonBoard(1);
           this.hasWonBoard(2);
 
@@ -171,15 +197,22 @@ module.exports = class SuperTicTacToe extends approve {
       const embed = new EmbedBuilder()
       .setColor(this.options.embed.color)
       .setTitle(this.options.embed.title)
-      .setImage("attachment://gameboard.png")
       .setFooter({ text: this.message.author.tag + ' vs ' + this.opponent.tag })
       .addFields({ name: this.options.embed.statusTitle, value: this.getTurnMessage() })
-      .addFields({ name: 'Game board nº', value: this.selectedGameBoard === -1 ? 'Select a game board' : this.selectedGameBoard})  
       
-      this.renderEmbedGameBoard(embed);
-      const attachment = new AttachmentBuilder(this.renderCanvas(), { name: 'gameboard.png' });
+      let attachment = null;
+      if (this.options.disablecanvas) {
+        embed.addFields({ name: 'Game board nº', value: this.selectedGameBoard === -1 ? 'Select a game board' : this.selectedGameBoard});
 
-      return await msg.edit({ embeds: [embed], components: this.getComponents(), files: [attachment] });
+        this.renderEmbedGameBoard(embed);
+
+        return await msg.edit({ embeds: [embed], components: this.getComponents()});
+      } else {
+        embed.setImage("attachment://gameboard.png")
+        attachment = new AttachmentBuilder(this.renderCanvas(), { name: 'gameboard.png' });
+
+        return await msg.edit({ embeds: [embed], components: this.getComponents(), files: [attachment] });
+      }
     })
 
 
@@ -189,7 +222,7 @@ module.exports = class SuperTicTacToe extends approve {
   }
 
   renderBaseCanvas(width = 512, height = 512) {
-    const gap = 10;
+    const { gap } = this.canvasOptions;
     const canvas = createCanvas(width, height);
     const ctx = canvas.getContext('2d');
     ctx.fillStyle = '#ffffff';
@@ -219,34 +252,51 @@ module.exports = class SuperTicTacToe extends approve {
         ctx.stroke();
       }
     }
+
     return canvas;
   }
 
-  renderCanvas(width = 512, height = 512) {
-    const gap = 10;
+  renderCanvas() {
+    const { width, height, gap, oColor, xColor } = this.canvasOptions;
     const selectedOverlay = {x: Math.floor(this.selectedGameBoard / 3), y: this.selectedGameBoard % 3}
     const canvas = createCanvas(width, height);
     const ctx = canvas.getContext('2d');
     ctx.drawImage(this.baseCanvas, 0, 0);
 
     // Draw an overlay for the selected game board
-    ctx.fillStyle = this.player1Turn ? "rgba(255, 0, 0, 0.2)" : "rgba(0, 0, 255, 0.2)";
-    ctx.fillRect(selectedOverlay.x * (width / 3) + gap, selectedOverlay.y * (height / 3) + gap, (width / 3) - gap * 2, (height / 3) - gap * 2);
+    ctx.globalAlpha = 0.2;
+    ctx.fillStyle = this.player1Turn ? xColor : oColor;
+    if (this.selectedGameBoard !== -1) {
+      ctx.fillRect(selectedOverlay.x * (width / 3) + gap, selectedOverlay.y * (height / 3) + gap, (width / 3) - gap * 2, (height / 3) - gap * 2);
+    } else {
+      this.matrixLoop((x, y) => {
+        if (this.gameBoard[x * 3 + y] === 0) ctx.fillRect(x * (width / 3) + gap, y * (height / 3) + gap, (width / 3) - gap * 2, (height / 3) - gap * 2);
+      })
+    }
+    ctx.globalAlpha = 1;
     
-    ctx.font = '30px Arial';
-    ctx.fillStyle = 'black';
-    // Draw the selections
-    // this.matrixLoop((y, x) => {
-    //   const gameBoard = this.miniGameBoard[y * 3 + x];
-    //   let gameBoardStr = '';
-    //   this.matrixLoop((xx, yy) => {
-    //     gameBoardStr += this.getButton( gameBoard[yy * 3 + xx]).emoji;
-    //   }, () => gameBoardStr += '\n');
-    //   ctx.fillText(gameBoardStr, (x * (width / 3)) + 10, (y * (height / 3)) + 30);
-    // })
+    // Draw the selections canvas
+    if (this.selectionsCanvas !== null) ctx.drawImage(this.selectionsCanvas, 0, 0);
     return canvas.toBuffer();
   }
 
+  renderSelectionsCanvas(btnId) {
+    const { width, height, gap, xButton, xColor, oButton, oColor } = this.canvasOptions;
+    const canvas = this.selectionsCanvas || createCanvas(width, height);
+    const ctx = canvas.getContext('2d');
+    const selectedOverlay = {x: Math.floor(this.selectedGameBoard / 3), y: this.selectedGameBoard % 3};
+    const sPos = {x: Math.floor(btnId / 3), y: btnId % 3};
+    const symbol = this.player1Turn ? xButton : oButton;
+    ctx.fillStyle = this.player1Turn ? xColor : oColor;
+    ctx.font = '30px Arial';
+    ctx.textBaseline = "middle";
+    ctx.fillText(symbol, selectedOverlay.x * (width / 3) + sPos.x * (width / 9) + gap, selectedOverlay.y * (height / 3) + sPos.y * (height / 9) + (gap * 3));
+    this.selectionsCanvas = canvas;
+  }
+
+  /**
+   * Renders the game board in an embed.
+  */
   renderEmbedGameBoard(embed) {
     this.matrixLoop((x, y) => {
       const gameBoard = this.miniGameBoard[y * 3 + x];
@@ -279,7 +329,17 @@ module.exports = class SuperTicTacToe extends approve {
     .setFooter({ text: this.message.author.tag + ' vs ' + this.opponent.tag })
     .addFields({ name: this.options.embed.overTitle, value: this.getTurnMessage(result + 'Message') })
 
-    return await msg.edit({ embeds: [embed], components: disableButtons(this.getComponents()) });
+    let attachment = null;
+    if (this.options.disablecanvas) {
+      this.renderEmbedGameBoard(embed);
+
+      return await msg.edit({ embeds: [embed], components: disableButtons(this.getComponents()) });
+    } else {
+      embed.setImage("attachment://gameboard.png")
+      attachment = new AttachmentBuilder(this.renderCanvas(), { name: 'gameboard.png' });
+
+      return await msg.edit({ embeds: [embed], components: disableButtons(this.getComponents()), files: [attachment] });
+    }
   }
 
 
@@ -295,7 +355,22 @@ module.exports = class SuperTicTacToe extends approve {
 
   hasWonBoard(player) {
     if (this.selectedGameBoard === -1) return;
-    this.checkBoard(player, this.miniGameBoard[this.selectedGameBoard], () => this.gameBoard[this.selectedGameBoard] = player);
+    this.checkBoard(player, this.miniGameBoard[this.selectedGameBoard], () => {
+      this.gameBoard[this.selectedGameBoard] = player
+      
+
+      if (!this.options.disableCanvas) {
+        const { gap, xButton, oButton, xColor, oColor } = this.canvasOptions;
+        const canvas = this.selectionsCanvas;
+        const ctx = canvas.getContext('2d');
+        const selectedOverlay = {x: Math.floor(this.selectedGameBoard / 3), y: this.selectedGameBoard % 3};
+        const symbol = player === 1 ? xButton : oButton;
+        ctx.fillStyle = this.player1Turn ? xColor : oColor;
+        ctx.font = '120px Arial';
+        ctx.textBaseline = "middle";
+        ctx.fillText(symbol, selectedOverlay.x * (canvas.width / 3) + gap / 3, selectedOverlay.y * (canvas.height / 3) + (canvas.height / 3) / 2 + gap);
+      }
+    });
   }
 
   checkBoard(player, board, fn) {
