@@ -18,3 +18,4 @@ module.exports.Snake = require('./src/Snake');
 module.exports.Trivia = require('./src/Trivia');
 module.exports.Wordle = require('./src/Wordle');
 module.exports.Roll = require('./src/Roll');
+module.exports.SuperTicTacToe = require('./src/SuperTicTacToe');
