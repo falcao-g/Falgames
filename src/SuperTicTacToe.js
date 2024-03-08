@@ -93,6 +93,7 @@ module.exports = class SuperTicTacToe extends approve {
     this.miniGameBoard = this.createMiniGameBoards();
     this.selectedGameBoard = -1;
     this.player1Turn = true;
+    this.baseCanvas = this.renderBaseCanvas();
   }
 
   createMiniGameBoards() {
@@ -131,7 +132,7 @@ module.exports = class SuperTicTacToe extends approve {
     .addFields({ name: this.options.embed.statusTitle, value: this.getTurnMessage() })
     .addFields({ name: 'Game board nº', value: this.selectedGameBoard === -1 ? 'Select a game board' : this.selectedGameBoard})
 
-    this.renderGameBoard(embed);
+    this.renderEmbedGameBoard(embed);
 
     await msg.edit({ content: null, embeds: [embed], components: this.getComponents() });
     this.handleButtons(msg);
@@ -175,8 +176,8 @@ module.exports = class SuperTicTacToe extends approve {
       .addFields({ name: this.options.embed.statusTitle, value: this.getTurnMessage() })
       .addFields({ name: 'Game board nº', value: this.selectedGameBoard === -1 ? 'Select a game board' : this.selectedGameBoard})  
       
-      this.renderGameBoard(embed);
-      const attachment = new AttachmentBuilder(this.renderGameBoardCanvas(), { name: 'gameboard.png' });
+      this.renderEmbedGameBoard(embed);
+      const attachment = new AttachmentBuilder(this.renderCanvas(), { name: 'gameboard.png' });
 
       return await msg.edit({ embeds: [embed], components: this.getComponents(), files: [attachment] });
     })
@@ -187,35 +188,66 @@ module.exports = class SuperTicTacToe extends approve {
     })
   }
 
-  renderGameBoardCanvas(width = 300, height = 300) {
-    const gap = 20;
+  renderBaseCanvas(width = 512, height = 512) {
+    const gap = 10;
     const canvas = createCanvas(width, height);
     const ctx = canvas.getContext('2d');
     ctx.fillStyle = '#ffffff';
     ctx.fillRect(0, 0, width, height);
-    ctx.fillStyle = '#000000';
-    ctx.lineWidth = 2;
+    ctx.strokeStyle = '#000000';
+
+    // Draw the columns
+    for (let y = 0; y < 8; y++) {
+      for(let x = 0; x < 8; x++) {
+        let gapX = (x+1) % 3 === 0 ? 0 : gap;
+        ctx.lineWidth = (x+1) % 3 === 0 ? 4 : 2;
+        ctx.beginPath();
+        ctx.moveTo((width / 9) + x * (width / 9), y * (height / 3) + gapX);
+        ctx.lineTo((width / 9) + x * (width / 9), (y + 1) * (height / 3) - gapX);
+        ctx.stroke();
+      }
+    }
+
+    // Draw the rows
+    for (let y = 0; y < 8; y++) {
+      for(let x = 0; x < 8; x++) {
+        let gapY = (y+1) % 3 === 0 ? 0 : gap;
+        ctx.lineWidth = (y+1) % 3 === 0 ? 4 : 2;
+        ctx.beginPath();
+        ctx.moveTo(x * (height / 3) + gapY, (width / 9) + y * (width / 9));
+        ctx.lineTo((x + 1) * (height / 3) - gapY, (width / 9) + y * (width / 9));
+        ctx.stroke();
+      }
+    }
+    return canvas;
+  }
+
+  renderCanvas(width = 512, height = 512) {
+    const gap = 10;
+    const selectedOverlay = {x: Math.floor(this.selectedGameBoard / 3), y: this.selectedGameBoard % 3}
+    const canvas = createCanvas(width, height);
+    const ctx = canvas.getContext('2d');
+    ctx.drawImage(this.baseCanvas, 0, 0);
+
+    // Draw an overlay for the selected game board
+    ctx.fillStyle = this.player1Turn ? "rgba(255, 0, 0, 0.2)" : "rgba(0, 0, 255, 0.2)";
+    ctx.fillRect(selectedOverlay.x * (width / 3) + gap, selectedOverlay.y * (height / 3) + gap, (width / 3) - gap * 2, (height / 3) - gap * 2);
     
-    ctx.scale(0.3, 0.3);
-    ctx.translate(-width, 0);
-    this.matrixLoop((x, y) => {
-      ctx.translate(width + gap, 0);
-      ctx.moveTo(width / 3, 0);
-      ctx.lineTo(width / 3, height);
-      ctx.moveTo((width / 3) * 2, 0);
-      ctx.lineTo((width / 3) * 2, height);
-      ctx.moveTo(0, height / 3);
-      ctx.lineTo(width, height / 3);
-      ctx.moveTo(0, (height / 3) * 2);
-      ctx.lineTo(width, (height / 3) * 2);
-      ctx.stroke();
-    }, () => ctx.translate(-width * 3 - (gap * 3), height + gap));
-
-
+    ctx.font = '30px Arial';
+    ctx.fillStyle = 'black';
+    // Draw the selections
+    // this.matrixLoop((y, x) => {
+    //   const gameBoard = this.miniGameBoard[y * 3 + x];
+    //   let gameBoardStr = '';
+    //   this.matrixLoop((xx, yy) => {
+    //     gameBoardStr += this.getButton( gameBoard[yy * 3 + xx]).emoji;
+    //   }, () => gameBoardStr += '\n');
+    //   ctx.fillText(gameBoardStr, (x * (width / 3)) + 10, (y * (height / 3)) + 30);
+    // })
     return canvas.toBuffer();
   }
 
-  renderGameBoard(embed) {
+  renderEmbedGameBoard(embed) {
     this.matrixLoop((x, y) => {
       const gameBoard = this.miniGameBoard[y * 3 + x];
         let gameBoardStr = '';
