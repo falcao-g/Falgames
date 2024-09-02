@@ -33,4 +33,4 @@ client.on('messageCreate', (message) => {
   }
 });
 
-client.login('OTAwODcxODk3NzI0NjM3MTg0.Gi5ShA.WvlVVbtFcXIzc89E-WA9VP33b3orLJB_fJJ-G0');
+client.login('Token_do_bot');
