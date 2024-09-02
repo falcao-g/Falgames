@@ -18,7 +18,7 @@ module.exports = class FastType extends events {
    * @param {string} [options.sentence='Some really cool sentence to fast type.'] - The sentence to be typed.
    * @param {string} [options.winMessage='You won! You finished the type race in {time} seconds with word per minute of {wpm}.'] - The win message.
    * @param {string} [options.loseMessage='You lost! You didn\'t type the correct sentence in time.'] - The lose message.
-   * @param {string} [options.timeMessage='You lost! You didn\'t type fast enough.'] - The lose message by time.
+   * @param {string} [options.timeMessage='You lost! You didn\'t type fast enough.';] - The lose message by time.
    * @param {number} [options.timeoutTime=60000] - The timeout time for the game.
    */
   constructor(options = {}) {
@@ -91,52 +91,53 @@ module.exports = class FastType extends events {
 
 
     collector.on('collect', (message) => {
-      this.timeTaken = Math.floor(Date.now() - startTime);
-    
-      this.wpm = Math.floor(message.content.trim().length / ((this.timeTaken / 60000) % 60) / 5);
-    
-      const userInput = message.content?.toLowerCase().trim();
+      this.timeTaken = Date.now() - startTime;
+      this.wpm = Math.floor(message.content.trim().length / ((this.timeTaken / 60000)) / 5);
+
+      const userInput = message.content.toLowerCase().trim();
       const correctSentence = this.options.sentence.toLowerCase();
-    
+
       if (userInput === correctSentence) {
-        collector.stop();
-        return this.gameOver(msg, true); 
+        collector.stop('win');
       } else {
-        const timeRemaining = 600000 - this.timeTaken;
-        if (timeRemaining <= 0) {
-          collector.stop();
-          return this.gameOver(msg, false, true ); 
+        if (this.timeTaken >= this.options.timeoutTime) {
+          collector.stop('time');
         } else {
-          return this.gameOver(msg, false, false);
+          collector.stop('lose');
         }
+      }
+    });
+/* 
+I spent 12 hours messing with this part of the code (losing my sanity) to discover that there was a simple function that fixed this in minutes :D
+*/
+    collector.on('end', (collected, reason) => {
+      if (reason === 'win') {
+        this.gameOver(msg, true, false);
+      } else if (reason === 'time') {
+        this.gameOver(msg, false, true);
+      } else {
+        this.gameOver(msg, false, false);
       }
     });
   }
 
-  gameOver(msg, result, time) {
+  gameOver(msg, result, timeRanOut) {
+    let GameOverMessage = result
+      ? this.options.winMessage
+      : timeRanOut
+        ? this.options.timeMessage
+        : this.options.loseMessage;
 
-    const FasttypeGame = { player: this.message.author, timeTaken: Math.floor(this.timeTaken / 1000), wpm: this.wpm }; 
-    var GameOverMessage; 
-    if (result) {
-        GameOverMessage = this.options.winMessage
-    } 
-    else {
-    
-      if(time) {
-        GameOverMessage = this.options.timeMessage
-      } else {
-        GameOverMessage = this.options.loseMessage
-      }
-      };
-    this.emit('gameOver', { result: (result ? 'win' : 'lose'), FasttypeGame });
+    GameOverMessage = GameOverMessage.replace('{time}', Math.floor(this.timeTaken / 1000)).replace('{wpm}', this.wpm);
 
+    this.emit('gameOver', { result: result ? 'win' : 'lose', FasttypeGame: { player: this.message.author, timeTaken: Math.floor(this.timeTaken / 1000), wpm: this.wpm } });
 
     const embed = new EmbedBuilder()
-    .setColor(this.options.embed.color)
-    .setTitle(this.options.embed.title)
-    .setDescription(GameOverMessage.replace('{time}', Math.floor((this.timeTaken / 1000) % 60)).replace('{wpm}', this.wpm))
-    .setAuthor({ name: this.message.author.tag, iconURL: this.message.author.displayAvatarURL({ dynamic: true }) })
-    .setTimestamp()
+      .setColor(this.options.embed.color)
+      .setTitle(this.options.embed.title)
+      .setDescription(GameOverMessage)
+      .setAuthor({ name: this.message.author.tag, iconURL: this.message.author.displayAvatarURL({ dynamic: true }) })
+      .setTimestamp();
 
     return msg.edit({ embeds: [embed] });
   }
