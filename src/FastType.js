@@ -1,4 +1,3 @@
-const { time } = require('console');
 const { EmbedBuilder } = require('discord.js');
 const events = require('events');
 
