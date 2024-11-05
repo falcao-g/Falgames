@@ -8,7 +8,7 @@ module.exports = class FastType extends events {
    * @constructor
    * @param {Object} options - The options the FastType game.
    * @param {boolean} [options.isSlashGame=false] - Whether the game is played using slash commands.
-   * @param {Object} options.message - The message object associated with the game.
+   * @param {Object}  options.message - The message object associated with the game.
    * @param {Object} [options.embed={}] - The embed options for the game.
    * @param {string} [options.embed.title='Fast Type'] - The title of the embed.
    * @param {string} [options.embed.color='#551476'] - The color of the embed.
@@ -17,6 +17,7 @@ module.exports = class FastType extends events {
    * @param {string} [options.sentence='Some really cool sentence to fast type.'] - The sentence to be typed.
    * @param {string} [options.winMessage='You won! You finished the type race in {time} seconds with word per minute of {wpm}.'] - The win message.
    * @param {string} [options.loseMessage='You lost! You didn\'t type the correct sentence in time.'] - The lose message.
+   * @param {string} [options.timeMessage='You lost! You didn\'t type fast enough.';] - The lose message by time.
    * @param {number} [options.timeoutTime=60000] - The timeout time for the game.
    */
   constructor(options = {}) {
@@ -36,6 +37,7 @@ module.exports = class FastType extends events {
     if (!options.sentence) options.sentence = 'Some really cool sentence to fast type.';
     if (!options.winMessage) options.winMessage = 'You won! You finished the type race in {time} seconds with word per minute of {wpm}.';
     if (!options.loseMessage) options.loseMessage = 'You lost! You didn\'t type the correct sentence in time.';
+    if (!options.timeMessage) options.timeMessage = 'You lost! You didn\'t type fast enough.';
     if (!options.timeoutTime) options.timeoutTime = 60000;
 
 
@@ -46,6 +48,7 @@ module.exports = class FastType extends events {
     if (typeof options.sentence !== 'string') throw new TypeError('INVALID_SENTENCE: sentence must be a string.');
     if (typeof options.winMessage !== 'string') throw new TypeError('INVALID_MESSAGE: Win message option must be a string.');
     if (typeof options.loseMessage !== 'string') throw new TypeError('INVALID_MESSAGE: Lose message option must be a string.');
+    if (typeof options.timeMessage !== 'string') throw new TypeError('INVALID_MESSAGE: Time message option must be a string.');
     if (typeof options.timeoutTime !== 'number') throw new TypeError('INVALID_TIME: Timeout time option must be a number.');
 
 
@@ -86,32 +89,54 @@ module.exports = class FastType extends events {
     const collector = this.message.channel.createMessageCollector({ time: this.options.timeoutTime, filter: filter });
 
 
-    collector.on('collect', (m) => {
-      collector.stop();
-      this.timeTaken = Math.floor(Date.now() - startTime);
-      this.wpm = Math.floor(m.content.trim().length / ((this.timeTaken / 60000) % 60) / 5);
-      return this.gameOver(msg, m.content?.toLowerCase().trim() === this.options.sentence.toLowerCase());
-    })
+    collector.on('collect', (message) => {
+      this.timeTaken = Date.now() - startTime;
+      this.wpm = Math.floor(message.content.trim().length / ((this.timeTaken / 60000)) / 5);
 
-    collector.on('end', (_, reason) => {
-      this.timeTaken = Math.floor(Date.now() - startTime);
-      if (reason === 'time') return this.gameOver(msg, false);
-    })
+      const userInput = message.content.toLowerCase().trim();
+      const correctSentence = this.options.sentence.toLowerCase();
+
+      if (userInput === correctSentence) {
+        collector.stop('win');
+      } else {
+        if (this.timeTaken >= this.options.timeoutTime) {
+          collector.stop('time');
+        } else {
+          collector.stop('lose');
+        }
+      }
+    });
+/* 
+I spent 12 hours messing with this part of the code (losing my sanity) to discover that there was a simple function that fixed this in minutes :D
+*/
+    collector.on('end', (collected, reason) => {
+      if (reason === 'win') {
+        this.gameOver(msg, true, false);
+      } else if (reason === 'time') {
+        this.gameOver(msg, false, true);
+      } else {
+        this.gameOver(msg, false, false);
+      }
+    });
   }
 
+  gameOver(msg, result, timeRanOut) {
+    let GameOverMessage = result
+      ? this.options.winMessage
+      : timeRanOut
+        ? this.options.timeMessage
+        : this.options.loseMessage;
 
-  gameOver(msg, result) {
-    const FasttypeGame = { player: this.message.author, timeTaken: Math.floor(this.timeTaken / 1000), wpm: this.wpm };
-    const GameOverMessage = result ? this.options.winMessage : this.options.loseMessage;
-    this.emit('gameOver', { result: (result ? 'win' : 'lose'), FasttypeGame });
+    GameOverMessage = GameOverMessage.replace('{time}', Math.floor(this.timeTaken / 1000)).replace('{wpm}', this.wpm);
 
+    this.emit('gameOver', { result: result ? 'win' : 'lose', FasttypeGame: { player: this.message.author, timeTaken: Math.floor(this.timeTaken / 1000), wpm: this.wpm } });
 
     const embed = new EmbedBuilder()
-    .setColor(this.options.embed.color)
-    .setTitle(this.options.embed.title)
-    .setDescription(GameOverMessage.replace('{time}', Math.floor((this.timeTaken / 1000) % 60)).replace('{wpm}', this.wpm))
-    .setAuthor({ name: this.message.author.tag, iconURL: this.message.author.displayAvatarURL({ dynamic: true }) })
-    .setTimestamp()
+      .setColor(this.options.embed.color)
+      .setTitle(this.options.embed.title)
+      .setDescription(GameOverMessage)
+      .setAuthor({ name: this.message.author.tag, iconURL: this.message.author.displayAvatarURL({ dynamic: true }) })
+      .setTimestamp();
 
     return msg.edit({ embeds: [embed] });
   }
