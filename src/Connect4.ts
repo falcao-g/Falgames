@@ -1,9 +1,30 @@
-const { disableButtons, formatMessage, ButtonBuilder } = require('../utils/utils');
-const { EmbedBuilder, ActionRowBuilder } = require('discord.js');
-const approve = require('../utils/approve');
+import { disableButtons, formatMessage } from '../utils/utils.ts';
+import { EmbedBuilder, ActionRowBuilder, Message, UserMention } from "npm:discord.js@14.17.3";
+import approve from '../utils/approve.js';
 
+type Connect4Options = {
+  isSlashGame?: boolean;
+  message: Message;
+  opponent: UserMention;
+  embed?: { title?: string; statusTitle?: string; color?: string };
+  emojis?: { board?: string; player1?: string; player2?: string };
+  timeoutTime?: number;
+  buttonStyle?: string;
+  turnMessage?: string;
+  winMessage?: string;
+  tieMessage?: string;
+  timeoutMessage?: string;
+  requestMessage?: string;
+  rejectMessage?: string;
+  playerOnlyMessage?: string;
+};
 
-module.exports = class Connect4 extends approve {
+export class Connect4 extends approve {
+  override options: Connect4Options;
+  override message: Message;
+  override opponent: UserMention;
+  player1Turn: boolean;
+  gameBoard: string[];
   /**
    * Represents a Connect4 game.
    * @constructor
@@ -29,8 +50,7 @@ module.exports = class Connect4 extends approve {
    * @param {string} [options.rejectMessage='The player denied your request for a round of **Connect4**.'] - The message displayed when a player rejects an invitation for a game.
    * @param {string} [options.playerOnlyMessage='Only {player} and {opponent} can use these buttons.'] - The message to show when someone else tries to use the buttons.
    */
-  constructor(options = {}) {
-
+  constructor(options: Connect4Options) {
     if (!options.isSlashGame) options.isSlashGame = false;
     if (!options.message) throw new TypeError('NO_MESSAGE: No message option was provided.');
     if (!options.opponent) throw new TypeError('NO_OPPONENT: No opponent option was provided.');
@@ -44,8 +64,8 @@ module.exports = class Connect4 extends approve {
     if (!options.embed.statusTitle) options.embed.statusTitle = 'Status';
     if (!options.embed.color) options.embed.color = '#551476';
 
-    if (!options.emojis) options.emojis = {};
-    if (!options.emojis.board) options.emojis.board = '⚪';
+    options.emojis = options.emojis ?? {};
+    if (options.emojis.board == undefined) options.emojis.board = '⚪';
     if (!options.emojis.player1) options.emojis.player1 = '🔴';
     if (!options.emojis.player2) options.emojis.player2 = '🟡';
 
@@ -72,10 +92,9 @@ module.exports = class Connect4 extends approve {
     if (typeof options.winMessage !== 'string') throw new TypeError('INVALID_MESSAGE: Win message must be a string.');
     if (typeof options.tieMessage !== 'string') throw new TypeError('INVALID_MESSAGE: Tie message must be a string.');
     if (typeof options.timeoutMessage !== 'string') throw new TypeError('INVALID_MESSAGE: Timeout message must be a string.');
-    if (options.playerOnlyMessage !== false) {
-      if (!options.playerOnlyMessage) options.playerOnlyMessage = 'Only {player} and {opponent} can use these buttons.';
-      if (typeof options.playerOnlyMessage !== 'string') throw new TypeError('INVALID_MESSAGE: playerOnly Message option must be a string.');
-    }
+    if (!options.playerOnlyMessage) options.playerOnlyMessage = 'Only {player} and {opponent} can use these buttons.';
+    if (typeof options.playerOnlyMessage !== 'string') throw new TypeError('INVALID_MESSAGE: playerOnly Message option must be a string.');
+    
 
     super(options);
     this.options = options;
@@ -86,7 +105,7 @@ module.exports = class Connect4 extends approve {
 
     for (let y = 0; y < 6; y++) {
       for (let x = 0; x < 7; x++) {
-        this.gameBoard[y * 7 + x] = this.options.emojis.board;
+        this.gameBoard[y * 7 + x] = this.options.emojis.board ?? '⚪';
       }
     }
   }

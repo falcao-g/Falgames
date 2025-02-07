@@ -1,9 +1,36 @@
-const { EmbedBuilder, ActionRowBuilder, AttachmentBuilder } = require("discord.js")
-const { disableButtons, formatMessage, move, oppDirection, ButtonBuilder } = require("../utils/utils")
-const events = require("events")
-const { createCanvas } = require("canvas")
+import { EmbedBuilder, ActionRowBuilder, AttachmentBuilder, ButtonBuilder } from "npm:discord.js@14.17.3"
+import { disableButtons, formatMessage, move, oppDirection } from "../utils/utils.ts"
+import { createCanvas } from "npm:canvas@3.1.0"
 
-module.exports = class TwoZeroFourEight extends events {
+type TwoZeroFourEightOptions = {
+	isSlashGame: boolean
+	message: any
+	embed: {
+		title: string
+		color: string
+	}
+	emojis: {
+		up: string
+		down: string
+		left: string
+		right: string
+	}
+	timeoutTime: number
+	stopButton: string
+	buttonStyle: string
+	playerOnlyMessage: string
+	scoreText: string
+	totalScoreText: string
+}
+
+export class TwoZeroFourEight {
+	options: TwoZeroFourEightOptions
+	message: any
+	gameBoard: number[]
+	mergedPos: any[]
+	length: number
+	score: number
+	emit: any
 	/**
 	 * Represents a 2048 game.
 	 * @constructor
@@ -25,18 +52,16 @@ module.exports = class TwoZeroFourEight extends events {
 	 * @param {string} [options.scoreText="Current Score"] - The text for the current score.
 	 * @param {string} [options.totalScoreText="Total Score"] - The text for the total score.
 	 */
-	constructor(options = {}) {
+	constructor(options: TwoZeroFourEightOptions) {
 		if (!options.isSlashGame) options.isSlashGame = false
 		if (!options.message) throw new TypeError("NO_MESSAGE: No message option was provided.")
 		if (typeof options.message !== "object") throw new TypeError("INVALID_MESSAGE: message option must be an object.")
 		if (typeof options.isSlashGame !== "boolean")
 			throw new TypeError("INVALID_COMMAND_TYPE: isSlashGame option must be a boolean.")
 
-		if (!options.embed) options.embed = {}
 		if (!options.embed.title) options.embed.title = "2048"
 		if (!options.embed.color) options.embed.color = "#551476"
 
-		if (!options.emojis) options.emojis = {}
 		if (!options.emojis.up) options.emojis.up = "⬆️"
 		if (!options.emojis.down) options.emojis.down = "⬇️"
 		if (!options.emojis.left) options.emojis.left = "⬅️"
@@ -63,13 +88,10 @@ module.exports = class TwoZeroFourEight extends events {
 			throw new TypeError("INVALID_TIME: Timeout time option must be a number.")
 		if (typeof options.buttonStyle !== "string")
 			throw new TypeError("INVALID_BUTTON_STYLE: button style must be a string.")
-		if (options.playerOnlyMessage !== false) {
-			if (!options.playerOnlyMessage) options.playerOnlyMessage = "Only {player} can use these buttons."
-			if (typeof options.playerOnlyMessage !== "string")
-				throw new TypeError("INVALID_MESSAGE: playerOnlyMessage option must be a string.")
-		}
+		if (!options.playerOnlyMessage) options.playerOnlyMessage = "Only {player} can use these buttons."
+		if (typeof options.playerOnlyMessage !== "string")
+			throw new TypeError("INVALID_MESSAGE: playerOnlyMessage option must be a string.")
 
-		super()
 		this.options = options
 		this.message = options.message
 		this.gameBoard = []
@@ -143,6 +165,7 @@ module.exports = class TwoZeroFourEight extends events {
 	}
 
 	async startGame() {
+		console.log("asd")
 		if (this.options.isSlashGame || !this.message.author) {
 			if (!this.message.deferred) await this.message.deferReply().catch((e) => {})
 			this.message.author = this.message.user
@@ -150,6 +173,7 @@ module.exports = class TwoZeroFourEight extends events {
 		}
 		this.placeRandomTile()
 		this.placeRandomTile()
+		console.log("asd2")
 
 		const embed = new EmbedBuilder()
 			.setTitle(this.options.embed.title)
@@ -174,13 +198,14 @@ module.exports = class TwoZeroFourEight extends events {
 			.setEmoji(this.options.emojis.right)
 			.setStyle(this.options.buttonStyle)
 			.setCustomId("2048_right")
+		console.log("asd3")
 		const stop = new ButtonBuilder().setLabel(this.options.stopButton).setStyle("DANGER").setCustomId("snake_stop")
 		const dis1 = new ButtonBuilder().setLabel("\u200b").setStyle("SECONDARY").setCustomId("dis1").setDisabled(true)
 		const dis2 = new ButtonBuilder().setLabel("\u200b").setStyle("SECONDARY").setCustomId("dis2").setDisabled(true)
 		const row1 = new ActionRowBuilder().addComponents(dis1, up, dis2, stop)
 		const row2 = new ActionRowBuilder().addComponents(left, down, right)
-
-		const msg = await this.sendMessage({
+		console.log(this.message)
+		const msg = await this.message.channel.sendMessage({
 			embeds: [embed],
 			components: [row1, row2],
 			files: [await this.getBoardImage()],
@@ -192,8 +217,9 @@ module.exports = class TwoZeroFourEight extends events {
 		let tilePos = { x: 0, y: 0 }
 
 		do {
-			tilePos = { x: parseInt(Math.random() * this.length), y: parseInt(Math.random() * this.length) }
+			tilePos = { x: Math.random() * this.length, y: Math.random() * this.length }
 		} while (this.gameBoard[tilePos.y * this.length + tilePos.x] != 0)
+		console.log("place")
 		this.gameBoard[tilePos.y * this.length + tilePos.x] = Math.random() > 0.8 ? 2 : 1
 	}
 
@@ -229,7 +255,7 @@ module.exports = class TwoZeroFourEight extends events {
 
 		collector.on("end", (_, reason) => {
 			if (reason === "idle" || reason === "user") {
-				return this.gameOver(msg, this.gameBoard.includes("b"))
+				return this.gameOver(msg, this.gameBoard.includes(11))
 			}
 		})
 	}
