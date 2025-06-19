@@ -1,6 +1,6 @@
 {
   "name": "falgames",
-  "version": "1.2.2",
+  "version": "1.2.3",
   "description": "Falgames is a helpful package to enhance your discord bot with fun and interactive minigames",
   "main": "index.js",
   "scripts": {
