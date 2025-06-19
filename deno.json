@@ -1,0 +1,23 @@
+{
+  "name": "@falcao/falgames",
+  "version": "1.2.2",
+  "description": "Falgames is a helpful package to enhance your discord bot with fun and interactive minigames",
+  "main": "index.js",
+  "exports": "./index.js",
+  "publish": {
+    "include": [
+      "src/",
+      "index.js",
+      "utils/"
+    ]
+  },
+  "license": "MIT",
+  "tasks": {
+    "dev": "deno run --watch test/index.js"
+  },
+  "dependencies": {
+    "canvas": "^3.0.1",
+    "discord.js": "^14.14.1",
+    "html-entities": "^2.5.2"
+  }
+}

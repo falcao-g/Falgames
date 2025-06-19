@@ -1,10 +1,10 @@
-const { EmbedBuilder, ActionRowBuilder } = require("discord.js")
-const { disableButtons, formatMessage, ButtonBuilder } = require("../utils/utils")
-const events = require("events")
+import { EmbedBuilder, ActionRowBuilder } from "discord.js"
+import { disableButtons, formatMessage, ButtonBuilder } from "../utils/utils.js"
+import events from "node:events"
 const HEIGHT = 10
 const WIDTH = 15
 
-module.exports = class SnakeGame extends events {
+export class Snake extends events {
 	/**
 	 * Represents a Snake game.
 	 * @constructor
@@ -31,7 +31,7 @@ module.exports = class SnakeGame extends events {
 	 * @param {string} [options.stopButton='Stop'] - The stop button label.
 	 * @param {number} [options.timeoutTime=60000] - The timeout time for the game.
 	 * @param {string} [options.playerOnlyMessage='Only {player} can use these buttons.'] - The message to show when someone else tries to use the buttons.
-	*/
+	 */
 	constructor(options = {}) {
 		if (!options.isSlashGame) options.isSlashGame = false
 		if (!options.message) throw new TypeError("NO_MESSAGE: No message option was provided.")
@@ -59,7 +59,7 @@ module.exports = class SnakeGame extends events {
 		if (!options.emojis.left) options.emojis.left = "⬅️"
 		if (!options.emojis.right) options.emojis.right = "➡️"
 
-		if (!options.foods) options.foods = ['🍎']
+		if (!options.foods) options.foods = ["🍎"]
 		if (!options.stopButton) options.stopButton = "Stop"
 		if (!options.timeoutTime) options.timeoutTime = 60000
 
