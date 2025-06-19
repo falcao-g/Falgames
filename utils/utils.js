@@ -27,9 +27,7 @@ export function formatMessage(options, contentMsg) {
 		.replace("{opponent}", `<@!${opponent?.id}>`)
 	return content
 }
-export function decode(content) {
-	return require("html-entities").decode(content)
-}
+
 export function move(pos, direction) {
 	if (direction === "up") return { x: pos.x, y: pos.y - 1 }
 	else if (direction === "down") return { x: pos.x, y: pos.y + 1 }

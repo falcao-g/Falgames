@@ -1,7 +1,8 @@
 import { EmbedBuilder, ActionRowBuilder } from "discord.js"
-import { decode, formatMessage, shuffleArray, disableButtons, ButtonBuilder } from "../utils/utils.js"
+import { formatMessage, shuffleArray, disableButtons, ButtonBuilder } from "../utils/utils.js"
 const difficulties = ["easy", "medium", "hard"]
 import events from "node:events"
+import { decode } from "html-entities"
 
 /**
  * This class allows you to create and manage a Trivia game in Discord, including handling user interactions and game logic.
