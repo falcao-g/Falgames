@@ -1,20 +1,20 @@
-module.exports.TwoZeroFourEight = require('./src/2048');
-module.exports.Connect4 = require('./src/Connect4');
-module.exports.FastType = require('./src/FastType');
-module.exports.FindEmoji = require('./src/FindEmoji');
-module.exports.Fishy = require('./src/Fishy');
-module.exports.Flood = require('./src/Flood');
-module.exports.Hangman = require('./src/Hangman');
-module.exports.MatchPairs = require('./src/MatchPairs');
-module.exports.Minesweeper = require('./src/Minesweeper');
-module.exports.GuessThePokemon = require('./src/GuessThePokemon');
-module.exports.RockPaperScissors = require('./src/RockPaperScissors');
-module.exports.WouldYouRather = require('./src/WouldYouRather');
-module.exports.version = require('./package.json').version;
-module.exports.TicTacToe = require('./src/TicTacToe');
-module.exports.Emojify = require('./utils/emojify');
-module.exports.Slots = require('./src/Slots');
-module.exports.Snake = require('./src/Snake');
-module.exports.Trivia = require('./src/Trivia');
-module.exports.Wordle = require('./src/Wordle');
-module.exports.Roll = require('./src/Roll');
+export { TwoZeroFourEight } from "./src/2048.js"
+export { Connect4 } from "./src/Connect4.js"
+export { FastType } from "./src/FastType.js"
+export { FindEmoji } from "./src/FindEmoji.js"
+export { Fishy } from "./src/Fishy.js"
+export { Flood } from "./src/Flood.js"
+export { Hangman } from "./src/Hangman.js"
+export { MatchPairs } from "./src/MatchPairs.js"
+export { Minesweeper } from "./src/Minesweeper.js"
+export { GuessThePokemon } from "./src/GuessThePokemon.js"
+export { RockPaperScissors } from "./src/RockPaperScissors.js"
+export { WouldYouRather } from "./src/WouldYouRather.js"
+//export { version } from "./package.json" with { type: "json" }
+export { TicTacToe } from "./src/TicTacToe.js"
+export { Emojify } from "./utils/emojify.js"
+export { Slots } from "./src/Slots.js"
+export { Snake } from "./src/Snake.js"
+export { Trivia } from "./src/Trivia.js"
+export { Wordle } from "./src/Wordle.js"
+export { Roll } from "./src/Roll.js"

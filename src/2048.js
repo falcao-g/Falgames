@@ -1,9 +1,9 @@
-const { EmbedBuilder, ActionRowBuilder, AttachmentBuilder } = require("discord.js")
-const { disableButtons, formatMessage, move, oppDirection, ButtonBuilder } = require("../utils/utils")
-const events = require("events")
-const { createCanvas } = require("canvas")
+import { EmbedBuilder, ActionRowBuilder, AttachmentBuilder } from "discord.js"
+import { disableButtons, formatMessage, move, oppDirection, ButtonBuilder } from "../utils/utils.js"
+import events from "node:events"
+import { createCanvas } from "canvas"
 
-module.exports = class TwoZeroFourEight extends events {
+export class TwoZeroFourEight extends events {
 	/**
 	 * Represents a 2048 game.
 	 * @constructor

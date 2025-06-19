@@ -1,7 +1,7 @@
-const { EmbedBuilder } = require("discord.js")
-const events = require("events")
+import { EmbedBuilder } from "discord.js"
+import events from "node:events"
 
-module.exports = class Roll extends events {
+export class Roll extends events {
 	/**
 	 * Represents a Roll game.
 	 * @constructor
