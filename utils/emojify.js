@@ -1,3 +1,8 @@
+/**
+ * Converts a string into its emoji representation.
+ * @param {*} content - The content to convert.
+ * @returns {string} - The emoji representation of the content.
+ */
 export function Emojify(content) {
 	content = content.toLowerCase().split("")
 

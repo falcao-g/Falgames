@@ -1,6 +1,16 @@
 import { EmbedBuilder } from "discord.js"
 import events from "node:events"
 
+/**
+ * This class allows you to create and manage a Fast Type game in Discord, including handling user interactions and game logic.
+ *
+ * @class FastType
+ * @param {FastTypeOptions} options - The options for the Fast Type game.
+ *
+ * @extends {approve}
+ * @fires FastType#gameOver
+ * @typedef {Object} FastTypeOptions
+ */
 export class FastType extends events {
 	/**
 	 * Represents a FastType game.

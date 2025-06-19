@@ -2,6 +2,17 @@ import { EmbedBuilder, ActionRowBuilder } from "discord.js"
 import { disableButtons, formatMessage, ButtonBuilder } from "../utils/utils.js"
 import approve from "../utils/approve.js"
 
+/**
+ * This class allows you to create and manage a Tic Tac Toe game in Discord, including handling user interactions and game logic.
+ * It extends the `approve` class to handle the approval process for the second player (opponent).
+ *
+ * @class TicTacToe
+ * @param {TicTacToeOptions} options - The options for the Tic Tac Toe game.
+ *
+ * @extends {events}
+ * @fires TicTacToe#gameOver
+ * @typedef {Object} TicTacToeOptions
+ */
 export class TicTacToe extends approve {
 	/**
 	 * Represents a TicTacToe game.

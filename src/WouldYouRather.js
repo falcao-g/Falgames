@@ -2,6 +2,17 @@ import { EmbedBuilder, ActionRowBuilder } from "discord.js"
 import { formatMessage, ButtonBuilder, randomInt } from "../utils/utils.js"
 import events from "node:events"
 
+/**
+ * This class allows you to create and manage a Would You Rather game in Discord, including handling user interactions and game logic.
+ * It extends the Node.js `events` module to allow for event-driven programming, specifically emitting a `gameOver` event when the game ends.
+ *
+ * @class WouldYouRather
+ * @param {WouldYouRatherOptions} options - The options for the Would You Rather game.
+ *
+ * @extends {events}
+ * @fires WouldYouRather#gameOver
+ * @typedef {Object} WouldYouRatherOptions
+ */
 export class WouldYouRather extends events {
 	/**
 	 * Represents a Would You Rather game.

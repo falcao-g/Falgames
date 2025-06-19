@@ -3,6 +3,17 @@ import { getAlphaEmoji, formatMessage, ButtonBuilder } from "../utils/utils.js"
 import words from "../utils/words.json" with { type: "json" }
 import events from "node:events"
 
+/**
+ * This class allows you to create and manage a Hangman game in Discord, including handling user interactions and game logic.
+ * It extends the Node.js `events` module to allow for event-driven programming, specifically emitting a `gameOver` event when the game ends.
+ *
+ * @class Hangman
+ * @param {HangmanOptions} options - The options for the Hangman game.
+ *
+ * @extends {events}
+ * @fires Hangman#gameOver
+ * @typedef {Object} HangmanOptions
+ */
 export class Hangman extends events {
 	/**
 	 * Represents a Hangman game.

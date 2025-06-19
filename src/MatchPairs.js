@@ -2,6 +2,17 @@ import { EmbedBuilder, ActionRowBuilder } from "discord.js"
 import { disableButtons, shuffleArray, formatMessage, ButtonBuilder } from "../utils/utils.js"
 import events from "node:events"
 
+/**
+ * This class allows you to create and manage a Match Pairs game in Discord, including handling user interactions and game logic.
+ * It extends the Node.js `events` module to allow for event-driven programming, specifically emitting a `gameOver` event when the game ends.
+ *
+ * @class MatchPairs
+ * @param {MatchPairsOptions} options - The options for the Match Pairs game.
+ *
+ * @extends {events}
+ * @fires MatchPairs#gameOver
+ * @typedef {Object} MatchPairsOptions
+ */
 export class MatchPairs extends events {
 	/**
 	 * Represents a MatchPairs game.

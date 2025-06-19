@@ -1,8 +1,20 @@
 import { EmbedBuilder, ActionRowBuilder } from "discord.js"
-import { decode, formatMessage, shuffleArray, disableButtons, ButtonBuilder } from "../utils/utils.js"
+import { formatMessage, shuffleArray, disableButtons, ButtonBuilder } from "../utils/utils.js"
 const difficulties = ["easy", "medium", "hard"]
 import events from "node:events"
+import { decode } from "html-entities"
 
+/**
+ * This class allows you to create and manage a Trivia game in Discord, including handling user interactions and game logic.
+ * It extends the Node.js `events` module to allow for event-driven programming, specifically emitting a `gameOver` event when the game ends.
+ *
+ * @class Trivia
+ * @param {TriviaOptions} options - The options for the Trivia game.
+ *
+ * @extends {events}
+ * @fires Trivia#gameOver
+ * @typedef {Object} TriviaOptions
+ */
 export class Trivia extends events {
 	/**
 	 * Represents a Trivia game.

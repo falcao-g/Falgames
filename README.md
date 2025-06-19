@@ -7,8 +7,8 @@
 		<a href="https://www.npmjs.com/package/falgames"><img src="https://img.shields.io/npm/dt/falgames.svg?maxAge=3600" alt="npm downloads" /></a>
     <a href="https://jsr.io/@falcao/falgames"><img src="https://jsr.io/badges/@falcao/falgames" alt="jsr version" /></a>
 		<a href="https://jsr.io/@falcao/falgames"><img src="https://jsr.io/badges/@falcao/falgames/score" alt="jsr score" /></a>
-    <a title="Stars" href="https://github.com/falcao-g/falbot">
-    <img src="https://img.shields.io/github/stars/falcao-g/Falgames" alt="Stars">
+    <a title="Stars" href="https://github.com/falcao-g/Falgames/stargazers">
+		<img src="https://img.shields.io/github/stars/falcao-g/Falgames?style=social" alt="Stars">
     </a>
 </p>
 

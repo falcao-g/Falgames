@@ -2,6 +2,17 @@ import { disableButtons, formatMessage, ButtonBuilder } from "../utils/utils.js"
 import { EmbedBuilder, ActionRowBuilder } from "discord.js"
 import approve from "../utils/approve.js"
 
+/**
+ * This class allows you to create and manage a Connect 4 game in Discord, including handling user interactions and game logic.
+ * It extends the `approve` class to handle the approval process for the second player (opponent).
+ *
+ * @class Connect4
+ * @param {Connect4Options} options - The options for the Connect 4 game.
+ *
+ * @extends {approve}
+ * @fires Connect4#gameOver
+ * @typedef {Object} Connect4Options
+ */
 export class Connect4 extends approve {
 	/**
 	 * Represents a Connect4 game.

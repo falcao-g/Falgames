@@ -8,7 +8,9 @@
     "include": [
       "src/",
       "index.js",
-      "utils/"
+      "utils/",
+      "README.md",
+      "LICENSE"
     ]
   },
   "license": "MIT",
