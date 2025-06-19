@@ -18,8 +18,8 @@ const Game = new RockPaperScissors({
 		scissors: "Scissors",
 	},
 	emojis: {
-		rock: "🌑",
-		paper: "📰",
+		rock: "🪨",
+		paper: "📄",
 		scissors: "✂️",
 	},
 	timeoutTime: 60000,
@@ -29,6 +29,8 @@ const Game = new RockPaperScissors({
 	tieMessage: "The Game tied! No one won the Game!",
 	timeoutMessage: "The Game went unfinished! No one won the Game!",
 	playerOnlyMessage: "Only {player} and {opponent} can use these buttons.",
+	requestMessage: "{opponent}, {player} has invited you for a round of **Rock Paper Scissors**.",
+	rejectMessage: "The player denied your request for a round of **Rock Paper Scissors**.",
 })
 
 Game.startGame()
