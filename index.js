@@ -1,3 +1,15 @@
+/**
+ * @module
+ *
+ * This module provides a collection of games to enrich your Discord bot.
+ *
+ * @example
+ * ```js
+ * import { TwoZeroFourEight } from 'falgames';
+ * const game = new TwoZeroFourEight();
+ * ```
+ */
+
 export { TwoZeroFourEight } from "./src/2048.js"
 export { Connect4 } from "./src/Connect4.js"
 export { FastType } from "./src/FastType.js"
