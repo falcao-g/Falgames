@@ -30,7 +30,7 @@ export class RockPaperScissors extends approve {
 	 * @param {string} [options.buttons.paper='Paper'] - The label for the paper button.
 	 * @param {string} [options.buttons.scissors='Scissors'] - The label for the scissors button.
 	 * @param {Object} [options.emojis] - The emojis for the game.
-	 * @param {string} [options.emojis.rock='🌑'] - The emoji for the rock button.
+	 * @param {string} [options.emojis.rock='🪨'] - The emoji for the rock button.
 	 * @param {string} [options.emojis.paper='📰'] - The emoji for the paper button.
 	 * @param {string} [options.emojis.scissors='✂️'] - The emoji for the scissors button.
 	 * @param {number} [options.timeoutTime=60000] - The timeout time for the game.
@@ -64,7 +64,7 @@ export class RockPaperScissors extends approve {
 		if (!options.buttons.scissors) options.buttons.scissors = "Scissors"
 
 		if (!options.emojis) options.emojis = {}
-		if (!options.emojis.rock) options.emojis.rock = "🌑"
+		if (!options.emojis.rock) options.emojis.rock = "🪨"
 		if (!options.emojis.paper) options.emojis.paper = "📰"
 		if (!options.emojis.scissors) options.emojis.scissors = "✂️"
 
