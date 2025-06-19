@@ -11,7 +11,7 @@ import events from "node:events"
  * @extends {events}
  * @typedef {Object} ApproveOptions
  */
-export class Approve extends events {
+export default class Approve extends events {
 	/**
 	 * Represents a game request.
 	 * @constructor
