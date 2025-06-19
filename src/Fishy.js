@@ -1,6 +1,17 @@
 import { EmbedBuilder } from "discord.js"
 import events from "node:events"
 
+/**
+ * This class allows you to create and manage a Fishy game in Discord, including handling user interactions and game logic.
+ * It extends the Node.js `events` module to allow for event-driven programming, specifically emitting a `gameOver` event when the game ends.
+ *
+ * @class Fishy
+ * @param {FishyOptions} options - The options for the Fishy game.
+ *
+ * @extends {events}
+ * @fires Fishy#gameOver
+ * @typedef {Object} FishyOptions
+ */
 export class Fishy extends events {
 	/**
 	 * Represents a Fishy game.

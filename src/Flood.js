@@ -3,6 +3,17 @@ import { disableButtons, formatMessage, ButtonBuilder } from "../utils/utils.js"
 const squares = ["🟥", "🟦", "🟧", "🟪", "🟩"]
 import events from "node:events"
 
+/**
+ * This class allows you to create and manage a Flood game in Discord, including handling user interactions and game logic.
+ * It extends the Node.js `events` module to allow for event-driven programming, specifically emitting a `gameOver` event when the game ends.
+ *
+ * @class Flood
+ * @param {FloodOptions} options - The options for the Flood game.
+ *
+ * @extends {events}
+ * @fires Flood#gameOver
+ * @typedef {Object} FloodOptions
+ */
 export class Flood extends events {
 	/**
 	 * Represents a Flood game.

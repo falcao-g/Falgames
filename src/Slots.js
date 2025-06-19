@@ -1,6 +1,17 @@
 import { EmbedBuilder } from "discord.js"
 import events from "node:events"
 
+/**
+ * This class allows you to create and manage a Slots game in Discord, including handling user interactions and game logic.
+ * It extends the Node.js `events` module to allow for event-driven programming, specifically emitting a `gameOver` event when the game ends.
+ *
+ * @class Slots
+ * @param {SlotsOptions} options - The options for the Slots game.
+ *
+ * @extends {events}
+ * @fires Slots#gameOver
+ * @typedef {Object} SlotsOptions
+ */
 export class Slots extends events {
 	/**
 	 * Represents a Slot Machine game.

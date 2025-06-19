@@ -2,6 +2,17 @@ import { EmbedBuilder, ActionRowBuilder } from "discord.js"
 import { disableButtons, shuffleArray, formatMessage, ButtonBuilder } from "../utils/utils.js"
 import events from "node:events"
 
+/**
+ * This class allows you to create and manage a Find Emoji game in Discord, including handling user interactions and game logic.
+ * It extends the Node.js `events` module to allow for event-driven programming, specifically emitting a `gameOver` event when the game ends.
+ *
+ * @class FindEmoji
+ * @param {FindEmojiOptions} options - The options for the Find Emoji game.
+ *
+ * @extends {events}
+ * @fires FindEmoji#gameOver
+ * @typedef {Object} FindEmojiOptions
+ */
 export class FindEmoji extends events {
 	/**
 	 * Represents a FindEmoji game.

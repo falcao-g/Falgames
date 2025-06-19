@@ -3,6 +3,17 @@ import { disableButtons, formatMessage, move, oppDirection, ButtonBuilder } from
 import events from "node:events"
 import { createCanvas } from "canvas"
 
+/**
+ * This class allows you to create and manage a 2048 game in Discord, including handling user interactions and game logic.
+ * It extends the Node.js `events` module to allow for event-driven programming, specifically emitting a `gameOver` event when the game ends.
+ *
+ * @class TwoZeroFourEight
+ * @param {TwoZeroFourEightOptions} options - The options for the 2048 game.
+ *
+ * @extends {events}
+ * @fires TwoZeroFourEight#gameOver
+ * @typedef {Object} TwoZeroFourEightOptions
+ */
 export class TwoZeroFourEight extends events {
 	/**
 	 * Represents a 2048 game.

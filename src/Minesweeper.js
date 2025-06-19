@@ -2,6 +2,17 @@ import { EmbedBuilder, ActionRowBuilder } from "discord.js"
 import { disableButtons, getNumEmoji, formatMessage, ButtonBuilder } from "../utils/utils.js"
 import events from "node:events"
 
+/**
+ * This class allows you to create and manage a Minesweeper game in Discord, including handling user interactions and game logic.
+ * It extends the Node.js `events` module to allow for event-driven programming, specifically emitting a `gameOver` event when the game ends.
+ *
+ * @class Minesweeper
+ * @param {MinesweeperOptions} options - The options for the Minesweeper game.
+ *
+ * @extends {events}
+ * @fires Minesweeper#gameOver
+ * @typedef {Object} MinesweeperOptions
+ */
 export class Minesweeper extends events {
 	/**
 	 * Represents a Minesweeper game.

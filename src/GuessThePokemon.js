@@ -2,6 +2,17 @@ import { EmbedBuilder, AttachmentBuilder } from "discord.js"
 import events from "node:events"
 import { createCanvas, loadImage } from "canvas"
 
+/**
+ * This class allows you to create and manage a Guess The Pokemon game in Discord, including handling user interactions and game logic.
+ * It extends the Node.js `events` module to allow for event-driven programming, specifically emitting a `gameOver` event when the game ends.
+ *
+ * @class GuessThePokemon
+ * @param {GuessThePokemonOptions} options - The options for the Guess The Pokemon game.
+ *
+ * @extends {events}
+ * @fires GuessThePokemon#gameOver
+ * @typedef {Object} GuessThePokemonOptions
+ */
 export class GuessThePokemon extends events {
 	/**
 	 * Represents a GuessThePokemon game.

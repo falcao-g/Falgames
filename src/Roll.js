@@ -1,6 +1,17 @@
 import { EmbedBuilder } from "discord.js"
 import events from "node:events"
 
+/**
+ * This class allows you to create and manage a Roll game in Discord, including handling user interactions and game logic.
+ * It extends the Node.js `events` module to allow for event-driven programming, specifically emitting a `gameOver` event when the game ends.
+ *
+ * @class Roll
+ * @param {RollOptions} options - The options for the Roll game.
+ *
+ * @extends {events}
+ * @fires Roll#gameOver
+ * @typedef {Object} RollOptions
+ */
 export class Roll extends events {
 	/**
 	 * Represents a Roll game.

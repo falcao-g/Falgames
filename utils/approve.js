@@ -2,7 +2,16 @@ import { EmbedBuilder, ActionRowBuilder } from "discord.js"
 import { formatMessage, ButtonBuilder } from "./utils.js"
 import events from "node:events"
 
-export default class Approve extends events {
+/**
+ * This class allows you to create and manage a game approval process in Discord, including handling user interactions and game logic.
+ *
+ * @class Approve
+ * @param {ApproveOptions} options - The options for the Approve class.
+ *
+ * @extends {events}
+ * @typedef {Object} ApproveOptions
+ */
+export class Approve extends events {
 	/**
 	 * Represents a game request.
 	 * @constructor

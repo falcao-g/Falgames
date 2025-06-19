@@ -4,6 +4,17 @@ import events from "node:events"
 const HEIGHT = 10
 const WIDTH = 15
 
+/**
+ * This class allows you to create and manage a Snake game in Discord, including handling user interactions and game logic.
+ * It extends the Node.js `events` module to allow for event-driven programming, specifically emitting a `gameOver` event when the game ends.
+ *
+ * @class Snake
+ * @param {SnakeOptions} options - The options for the Snake game.
+ *
+ * @extends {events}
+ * @fires Snake#gameOver
+ * @typedef {Object} SnakeOptions
+ */
 export class Snake extends events {
 	/**
 	 * Represents a Snake game.

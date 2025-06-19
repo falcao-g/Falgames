@@ -2,6 +2,17 @@ import { EmbedBuilder, AttachmentBuilder } from "discord.js"
 import events from "node:events"
 import { createCanvas } from "canvas"
 
+/**
+ * This class allows you to create and manage a Wordle game in Discord, including handling user interactions and game logic.
+ * It extends the Node.js `events` module to allow for event-driven programming, specifically emitting a `gameOver` event when the game ends.
+ *
+ * @class Wordle
+ * @param {WordleOptions} options - The options for the Wordle game.
+ *
+ * @extends {events}
+ * @fires Wordle#gameOver
+ * @typedef {Object} WordleOptions
+ */
 export class Wordle extends events {
 	/**
 	 * Represents a Wordle game.

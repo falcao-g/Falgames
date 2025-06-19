@@ -2,6 +2,17 @@ import { EmbedBuilder, ActionRowBuilder } from "discord.js"
 import { formatMessage, ButtonBuilder } from "../utils/utils.js"
 import approve from "../utils/approve.js"
 
+/**
+ * This class allows you to create and manage a Rock Paper Scissors game in Discord, including handling user interactions and game logic.
+ * It extends the `approve` class to handle the approval process for the second player (opponent).
+ *
+ * @class RockPaperScissors
+ * @param {RockPaperScissorsOptions} options - The options for the Rock Paper Scissors game.
+ *
+ * @extends {events}
+ * @fires RockPaperScissors#gameOver
+ * @typedef {Object} RockPaperScissorsOptions
+ */
 export class RockPaperScissors extends approve {
 	/**
 	 * Represents a Rock Paper Scissors game.
