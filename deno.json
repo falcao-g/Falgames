@@ -15,7 +15,7 @@
   },
   "license": "MIT",
   "tasks": {
-    "dev": "deno run --watch test/index.js"
+    "dev": "deno run --watch  --allow-env --allow-ffi --allow-net test/index.js"
   },
   "dependencies": {
     "canvas": "^3.0.1",

@@ -21,7 +21,7 @@ export class GuessThePokemon extends events {
 	 * @param {boolean} [options.isSlashGame=false] - Whether the game is played using slash commands.
 	 * @param {Object} options.message - The message object associated with the game.
 	 * @param {Object} [options.embed] - The embed options for the game.
-	 * @param {string} [options.embed.title='Who\'s The Pokemon'] - The title of the embed.
+	 * @param {string} [options.embed.title='Who\'s The Pokemon?'] - The title of the embed.
 	 * @param {string} [options.embed.color='#551476'] - The color of the embed.
 	 * @param {number} [options.timeoutTime=60000] - The timeout time for the game.
 	 * @param {string} [options.winMessage='You guessed it right! It was a {pokemon}.'] - The win message.
@@ -39,7 +39,7 @@ export class GuessThePokemon extends events {
 			throw new TypeError("INVALID_COMMAND_TYPE: isSlashGame option must be a boolean.")
 
 		if (!options.embed) options.embed = {}
-		if (!options.embed.title) options.embed.title = "Who's The Pokemon"
+		if (!options.embed.title) options.embed.title = "Who's The Pokemon?"
 		if (!options.embed.color) options.embed.color = "#551476"
 
 		if (!options.timeoutTime) options.timeoutTime = 60000
@@ -101,7 +101,7 @@ export class GuessThePokemon extends events {
 		this.pokemon.name = result.species.name
 		this.pokemon.types = result.types.map((t) => t.type.name)
 		this.pokemon.abilities = result.abilities.map((a) => a.ability.name)
-		this.pokemon.answerImage = result.sprites.other["official-artwork"].front_default
+		this.pokemon.answerImage = await this.getImage(result.sprites.other["official-artwork"].front_default)
 		this.pokemon.questionImage = await this.createQuestionImage(result.sprites.other["official-artwork"].front_default)
 
 		const embed = new EmbedBuilder()
@@ -137,10 +137,9 @@ export class GuessThePokemon extends events {
 		this.emit("gameOver", { result: result ? "win" : "lose", ...GuessThePokemonGame })
 
 		const resultMessage = result ? this.options.winMessage : this.options.loseMessage
-
 		const embed = new EmbedBuilder()
 			.setColor(this.options.embed.color)
-			.setTitle(this.options.embed.title)
+			.setTitle(this.pokemon.name.charAt(0).toUpperCase() + this.pokemon.name.slice(1))
 			.setImage("attachment://answer-image.png")
 			.addFields({ name: "Types", value: this.pokemon.types.join(", ") ?? "No Data", inline: true })
 			.addFields({ name: "Abilities", value: this.pokemon.abilities.join(", ") ?? "No Data", inline: true })
@@ -156,6 +155,16 @@ export class GuessThePokemon extends events {
 
 	randomInt(min, max) {
 		return Math.floor(Math.random() * (max - min + 1)) + min
+	}
+
+	async getImage(pokemonImgURL) {
+		const size = 475
+		// Create a canvas and draw the pokemon image on it
+		const canvas = createCanvas(size, size)
+		const ctx = canvas.getContext("2d")
+		const img = await loadImage(pokemonImgURL)
+		ctx.drawImage(img, 0, 0, canvas.width, canvas.height)
+		return canvas.toBuffer()
 	}
 
 	async createQuestionImage(pokemonImgURL) {

@@ -30,8 +30,8 @@ export class RockPaperScissors extends approve {
 	 * @param {string} [options.buttons.paper='Paper'] - The label for the paper button.
 	 * @param {string} [options.buttons.scissors='Scissors'] - The label for the scissors button.
 	 * @param {Object} [options.emojis] - The emojis for the game.
-	 * @param {string} [options.emojis.rock='🌑'] - The emoji for the rock button.
-	 * @param {string} [options.emojis.paper='📰'] - The emoji for the paper button.
+	 * @param {string} [options.emojis.rock='🪨'] - The emoji for the rock button.
+	 * @param {string} [options.emojis.paper='📄'] - The emoji for the paper button.
 	 * @param {string} [options.emojis.scissors='✂️'] - The emoji for the scissors button.
 	 * @param {number} [options.timeoutTime=60000] - The timeout time for the game.
 	 * @param {string} [options.buttonStyle='PRIMARY'] - The style for the buttons.
@@ -39,7 +39,7 @@ export class RockPaperScissors extends approve {
 	 * @param {string} [options.winMessage='**{player}** won the Game! Congratulations!'] - The win message for the game.
 	 * @param {string} [options.tieMessage='The Game tied! No one won the Game!'] - The tie message for the game.
 	 * @param {string} [options.timeoutMessage='The Game went unfinished! No one won the Game!'] - The timeout message for the game.
-	 * @param {string} [options.requestMessage='{player} has invited you for a round of **Rock Paper Scissors**.'] - The message to show when a player invites another player for a game.
+	 * @param {string} [options.requestMessage='{opponent}, {player} has invited you for a round of **Rock Paper Scissors**.'] - The message to show when a player invites another player for a game.
 	 * @param {string} [options.rejectMessage='The player denied your request for a round of **Rock Paper Scissors**.'] - The message to show when a player denies an invite for a game.
 	 * @param {string} [options.playerOnlyMessage] - The message to show when someone else tries to use the buttons.
 	 */
@@ -64,8 +64,8 @@ export class RockPaperScissors extends approve {
 		if (!options.buttons.scissors) options.buttons.scissors = "Scissors"
 
 		if (!options.emojis) options.emojis = {}
-		if (!options.emojis.rock) options.emojis.rock = "🌑"
-		if (!options.emojis.paper) options.emojis.paper = "📰"
+		if (!options.emojis.rock) options.emojis.rock = "🪨"
+		if (!options.emojis.paper) options.emojis.paper = "📄"
 		if (!options.emojis.scissors) options.emojis.scissors = "✂️"
 
 		if (!options.timeoutTime) options.timeoutTime = 60000
@@ -75,7 +75,7 @@ export class RockPaperScissors extends approve {
 		if (!options.tieMessage) options.tieMessage = "The Game tied! No one won the Game!"
 		if (!options.timeoutMessage) options.timeoutMessage = "The Game went unfinished! No one won the Game!"
 		if (!options.requestMessage)
-			options.requestMessage = "{player} has invited you for a round of **Rock Paper Scissors**."
+			options.requestMessage = "{opponent}, {player} has invited you for a round of **Rock Paper Scissors**."
 		if (!options.rejectMessage)
 			options.rejectMessage = "The player denied your request for a round of **Rock Paper Scissors**."
 
@@ -106,6 +106,10 @@ export class RockPaperScissors extends approve {
 			throw new TypeError("INVALID_MESSAGE: Tie message option must be a string.")
 		if (typeof options.timeoutMessage !== "string")
 			throw new TypeError("INVALID_MESSAGE: Timeout message option must be a string.")
+		if (typeof options.requestMessage !== "string")
+			throw new TypeError("INVALID_MESSAGE: Request message option must be a string.")
+		if (typeof options.rejectMessage !== "string")
+			throw new TypeError("INVALID_MESSAGE: Reject message option must be a string.")
 		if (options.playerOnlyMessage !== false) {
 			if (!options.playerOnlyMessage) options.playerOnlyMessage = "Only {player} and {opponent} can use these buttons."
 			if (typeof options.playerOnlyMessage !== "string")

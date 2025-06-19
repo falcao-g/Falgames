@@ -1,4 +1,4 @@
-import { EmbedBuilder, ActionRowBuilder } from "discord.js"
+import { EmbedBuilder, ActionRowBuilder, time } from "discord.js"
 import { formatMessage, shuffleArray, disableButtons, ButtonBuilder } from "../utils/utils.js"
 const difficulties = ["easy", "medium", "hard"]
 import events from "node:events"
@@ -36,6 +36,8 @@ export class Trivia extends events {
 	 * @param {string} [options.loseMessage='You lost! The correct answer is {answer}.'] - The lose message for the game.
 	 * @param {string} [options.errMessage='Unable to fetch question data! Please try again.'] - The error message for the game.
 	 * @param {string} [options.playerOnlyMessage='Only {player} can use these buttons.'] - The message to show when someone else tries to use the buttons.
+	 * @param {string} [options.categoryText] - The text to replace "Category:"
+	 * @param {string} [options.difficultyText] - The text to replace "Difficulty:"
 	 */
 	constructor(options = {}) {
 		if (!options.isSlashGame) options.isSlashGame = false
@@ -47,7 +49,7 @@ export class Trivia extends events {
 		if (!options.embed) options.embed = {}
 		if (!options.embed.title) options.embed.title = "Trivia"
 		if (!options.embed.color) options.embed.color = "#551476"
-		if (!options.embed.description) options.embed.description = "You have 60 seconds to guess the answer."
+		if (!options.embed.description) options.embed.description = "Your time to answer is going to end {timeoutTime}."
 
 		if (!options.mode) options.mode = "multiple"
 		if (!options.timeoutTime) options.timeoutTime = 60000
@@ -59,6 +61,8 @@ export class Trivia extends events {
 		if (!options.winMessage) options.winMessage = "You won! The correct answer is {answer}."
 		if (!options.loseMessage) options.loseMessage = "You lost! The correct answer is {answer}."
 		if (!options.errMessage) options.errMessage = "Unable to fetch question data! Please try again."
+		if (!options.categoryText) options.categoryText = "Category"
+		if (!options.difficultyText) options.difficultyText = "Difficulty"
 
 		if (typeof options.embed !== "object") throw new TypeError("INVALID_EMBED: embed option must be an object.")
 		if (typeof options.embed.title !== "string") throw new TypeError("INVALID_EMBED: embed title must be a string.")
@@ -89,6 +93,10 @@ export class Trivia extends events {
 			if (typeof options.playerOnlyMessage !== "string")
 				throw new TypeError("INVALID_MESSAGE: playerOnly Message option must be a string.")
 		}
+		if (typeof options.categoryText !== "string")
+			throw new TypeError("INVALID_MESSAGE: Category text option must be a string.")
+		if (typeof options.difficultyText !== "string")
+			throw new TypeError("INVALID_MESSAGE: Difficulty text option must be a string.")
 
 		super()
 		this.options = options
@@ -124,12 +132,18 @@ export class Trivia extends events {
 
 		const embed = new EmbedBuilder()
 			.setColor(this.options.embed.color)
-			.setTitle(this.options.embed.title)
+			.setTitle(this.trivia.question)
 			.setDescription(
-				`**${this.trivia.question}**\n\n**Difficulty:** ${this.trivia.difficulty}\n**Category:** ${this.trivia.category}`
+				this.options.embed.description.replace(
+					"{timeoutTime}",
+					`<t:${Math.floor((Date.now() + this.options.timeoutTime) / 1000)}:R>`
+				)
 			)
 			.setAuthor({ name: this.message.author.tag, iconURL: this.message.author.displayAvatarURL({ dynamic: true }) })
-			.addFields({ name: "\u200b", value: this.options.embed.description })
+			.addFields({
+				name: "\u200b",
+				value: `**${this.options.difficultyText}:** ${this.trivia.difficulty}\n**${this.options.categoryText}:** ${this.trivia.category}`,
+			})
 
 		const msg = await this.sendMessage({ embeds: [embed], components: this.getComponents() })
 		const collector = msg.createMessageComponentCollector({ idle: this.options.timeoutTime })
@@ -163,12 +177,13 @@ export class Trivia extends events {
 
 		const embed = new EmbedBuilder()
 			.setColor(this.options.embed.color)
-			.setTitle(this.options.embed.title)
-			.setDescription(
-				`**${this.trivia.question}**\n\n**Difficulty:** ${this.trivia.difficulty}\n**Category:** ${this.trivia.category}`
-			)
+			.setTitle(this.trivia.question)
+			.setDescription(this.trivia.answer)
 			.setAuthor({ name: this.message.author.tag, iconURL: this.message.author.displayAvatarURL({ dynamic: true }) })
-			.addFields({ name: "\u200b", value: this.options.embed.description })
+			.addFields({
+				name: "\u200b",
+				value: `**${this.options.difficultyText}:** ${this.trivia.difficulty}\n**${this.options.categoryText}:** ${this.trivia.category}`,
+			})
 
 		return await msg.edit({
 			content: GameOverMessage.replace("{answer}", this.trivia.answer),
